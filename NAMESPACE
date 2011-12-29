@@ -1,0 +1,4 @@
+export(kMeans)
+exportMethods(getClusters)
+exportMethods(plot)
+importFrom(methods,new)
