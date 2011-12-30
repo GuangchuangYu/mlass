@@ -11,8 +11,8 @@
 \details{
   \tabular{ll}{ Package: \tab MLclass\cr Type: \tab
   Package\cr Version: \tab 0.1.1\cr Date: \tab
-  12-29-2011\cr Depends:\tab ggplot2, methods\cr License:
-  \tab Artistic-2.0\cr }
+  12-29-2011\cr Depends:\tab ggplot2\cr License: \tab
+  Artistic-2.0\cr }
 }
 \author{
   Guangchuang Yu \email{guangchuangyu@gmail.com}

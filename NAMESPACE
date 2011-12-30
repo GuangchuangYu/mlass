@@ -1,5 +1,5 @@
 export(kMeans)
+exportMethods(getCentroids)
 exportMethods(getClusters)
 exportMethods(plot)
-importClassesFrom(methods,data.frame)
 importFrom(methods,new)

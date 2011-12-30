@@ -127,6 +127,10 @@ setGeneric("plot", function(object, ...) standardGeneric("plot"))
 ##' @exportMethod getClusters
 setGeneric("getClusters", function(object) standardGeneric("getClusters"))
 
+##' @exportMethod getCentroids
+setGeneric("getCentroids", function(object) standardGeneric("getCentroids"))
+
+
 ##' plot method for \code{kMeansResult} instance
 ##'
 ##' @name plot
@@ -137,10 +141,9 @@ setGeneric("getClusters", function(object) standardGeneric("getClusters"))
 ##' @param object A \code{kMeans} instance
 ##' @param trace tracing centroids when algorithm progress
 ##' @return graph
-##' @importClassesFrom methods data.frame
 ##' @author Guangchuang Yu \url{http://ygc.name}
 setMethod("plot", signature(object="kMeansResult"),
-          function (object, trace=F, title="", xlab="", ylab="") {
+          function (object, trace=F) {
               require(ggplot2)
               X = object@dataset
               colnames(X) <- c("V1", "V2")
@@ -159,7 +162,6 @@ setMethod("plot", signature(object="kMeansResult"),
                                         geom_path(data=preCentroids,
                                                   aes(x=V1, y=V2, group=idx))
               }
-	      p <- p+opts(title=title)+xlab(xlab)+ylab(ylab)
               print(p)
           }
           )
@@ -180,6 +182,28 @@ setMethod("getClusters", signature(object="kMeansResult"),
               return(clusters)
           }
           )
+
+##' getCentroids method for \code{kMeansResult} instance
+##'
+##' @name getCentroids
+##' @docType methods
+##' @rdname getCentroids-methods
+##'
+##' @title getCentroids method
+##' @param object A \code{kMeansResult} instance.
+##' @return centroids
+##' @author Guangchuang Yu \url{http://ygc.name}
+setMethod("getCentroids", signature(object="kMeansResult"),
+          function(object) {
+              centroids <- object@centroids
+              return(centroids)
+          }
+          )
+
+## dataset was converted from ML-class exercise 7  ex7data2.mat.
+##X <- load("ex7data2")
+##K <- 3
+##xx <- kMeans(X,K)
 
 
 ## dataset was converted from ML-class exercise 7  ex7data2.mat.
