@@ -16,4 +16,3 @@
 \author{
   Guangchuang Yu \url{http://ygc.name}
 }
-

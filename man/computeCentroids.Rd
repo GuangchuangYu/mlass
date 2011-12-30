@@ -2,7 +2,7 @@
 \alias{computeCentroids}
 \title{computeCentroids}
 \usage{
-  computeCentroids(X, idx, K)
+computeCentroids(X, idx, K)
 }
 \arguments{
   \item{X}{dataset}
@@ -20,4 +20,3 @@
 \author{
   Guangchuang Yu \url{http://ygc.name}
 }
-

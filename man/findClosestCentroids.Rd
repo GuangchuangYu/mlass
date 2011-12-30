@@ -2,7 +2,7 @@
 \alias{findClosestCentroids}
 \title{findClosestCentroids}
 \usage{
-  findClosestCentroids(X, centroids)
+findClosestCentroids(X, centroids)
 }
 \arguments{
   \item{X}{dataset}
@@ -18,4 +18,3 @@
 \author{
   Guangchuang Yu \url{http://ygc.name}
 }
-

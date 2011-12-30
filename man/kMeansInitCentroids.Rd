@@ -2,7 +2,7 @@
 \alias{kMeansInitCentroids}
 \title{kMeansInitCentroids}
 \usage{
-  kMeansInitCentroids(X, K)
+kMeansInitCentroids(X, K)
 }
 \arguments{
   \item{X}{data matrix}
@@ -24,4 +24,3 @@
 \seealso{
   \code{\link{kMeans}}
 }
-

@@ -2,7 +2,7 @@
 \alias{kMeans}
 \title{kMeans}
 \usage{
-  kMeans(X, centers, max.iter = 10)
+kMeans(X, centers, max.iter = 10)
 }
 \arguments{
   \item{X}{dataset}
@@ -24,4 +24,3 @@
   Guangchuang Yu \url{http://ygc.name}
 }
 \keyword{manip}
-
