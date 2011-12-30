@@ -137,9 +137,10 @@ setGeneric("getClusters", function(object) standardGeneric("getClusters"))
 ##' @param object A \code{kMeans} instance
 ##' @param trace tracing centroids when algorithm progress
 ##' @return graph
+##' @importClassesFrom methods data.frame
 ##' @author Guangchuang Yu \url{http://ygc.name}
 setMethod("plot", signature(object="kMeansResult"),
-          function (object, trace=F) {
+          function (object, trace=F, title="", xlab="", ylab="") {
               require(ggplot2)
               X = object@dataset
               colnames(X) <- c("V1", "V2")
@@ -158,6 +159,7 @@ setMethod("plot", signature(object="kMeansResult"),
                                         geom_path(data=preCentroids,
                                                   aes(x=V1, y=V2, group=idx))
               }
+	      p <- p+opts(title=title)+xlab(xlab)+ylab(ylab)
               print(p)
           }
           )
