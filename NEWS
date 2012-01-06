@@ -1,4 +1,8 @@
-CHANGES IN VERSION 0.2.2
+CHANGES IN VERSION 0.2.1
+------------------------
+ o add kMeans section in vignette <2012-01-06, Fri>
+ 
+CHANGES IN VERSION 0.2.0
 ------------------------
  o implemented linear regression with one variable <2012-01-06, Fri>
 

@@ -3,7 +3,7 @@ Type: Package
 Title: implment ML algorithms presented in ML Class (Stanford,
     http://www.ml-class.org)
 Description: ML algorithms
-Version: 0.2.2
+Version: 0.2.1
 Author: Guangchuang Yu
 Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
 Date: 2012-01-06

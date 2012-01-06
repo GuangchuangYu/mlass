@@ -76,6 +76,23 @@ plot(linReg)
 \caption{\label{plotLinearRegression} Linear Regression with One Variable}
 \end{figure}
 
+\section{K-Means algorithm}
+
+<<gradDescent>>=
+data(ex7data2)
+initCentroids <- matrix(c(3,3,6,2,8,5), byrow=T,ncol=2)
+xx <- kMeans(X, centers=initCentroids)
+getClusters(xx)
+@
+
+\begin{figure}[htbp]
+\begin{center}
+<<plotkMeans, fig=T>>=
+plot(xx, trace=TRUE)
+@
+\end{center}
+\caption{\label{plotkMeans} kMeans algorithm for clustering}
+\end{figure}
 
 
 \section{Session Information}
