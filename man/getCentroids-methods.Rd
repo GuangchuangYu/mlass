@@ -1,15 +1,15 @@
 \docType{methods}
-\name{getClusters}
-\alias{getClusters}
-\title{getCluster method}
+\name{getCentroids}
+\alias{getCentroids}
+\title{getCentroids method}
 \arguments{
   \item{object}{A \code{kMeansResult} instance.}
 }
 \value{
-  cluster index
+  centroids
 }
 \description{
-  getClusters method for \code{kMeansResult} instance
+  getCentroids method for \code{kMeansResult} instance
 }
 \author{
   Guangchuang Yu \url{http://ygc.name}

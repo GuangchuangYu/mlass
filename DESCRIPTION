@@ -2,14 +2,16 @@ Package: MLclass
 Type: Package
 Title: implment ML algorithms presented in ML Class (Stanford,
     http://www.ml-class.org)
-Version: 0.1.2
-Date: 2011-12-29
+Description: ML algorithms
+Version: 0.2.2
 Author: Guangchuang Yu
 Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
-Description: ML algorithms
+Date: 2012-01-06
 License: Artistic-2.0
 Depends:
-    methods
+    methods,
+    ggplot2
 Collate:
     'kMeans.R'
     'MLclass-package.R'
+    'LinearRegression.R'

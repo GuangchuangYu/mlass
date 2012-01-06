@@ -17,3 +17,4 @@ This class represents the result of kmeans clustering.}
   \code{\link{kMeans}}
 }
 \keyword{classes}
+

@@ -1,0 +1,92 @@
+% \VignetteIndexEntry{An introduction to MLclass}
+% \VignetteDepends{ggplot2, methods}
+% \VignetteKeywords{Machine Learning}
+% \VignettePackage{MLclass}
+
+%\SweaveOpts{prefix.string=images/fig}
+
+\documentclass[a4paper]{article}
+
+\usepackage{Sweave}
+\usepackage{a4wide}
+\usepackage{times}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{framed}
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[authoryear,round]{natbib}
+
+\textwidth=6.2in
+\textheight=8.5in
+%\parskip=.3cm
+\oddsidemargin=.1in
+\evensidemargin=.1in
+\headheight=-.3in
+
+\newcommand{\Rfunction}[1]{{\texttt{#1}}}
+\newcommand{\Robject}[1]{{\texttt{#1}}}
+\newcommand{\Rpackage}[1]{{\textit{#1}}}
+\newcommand{\Rmethod}[1]{{\texttt{#1}}}
+\newcommand{\Rfunarg}[1]{{\texttt{#1}}}
+\newcommand{\Rclass}[1]{{\textit{#1}}}
+\newcommand{\Rcode}[1]{{\texttt{#1}}}
+\newtheorem{theorem}{Theorem}[section]
+
+\newcommand{\R}{\textsf{R}}
+
+\newcommand{\term}[1]{\emph{#1}}
+\newcommand{\mref}[2]{\htmladdnormallinkfoot{#2}{#1}}
+
+
+\bibliographystyle{plainnat}
+
+\title{\Rpackage{MLclass}: an \R\, package implementing \\ Machine Learning algorithms presented in Stanford ML-class}
+\author{Guangchuang Yu \\
+\\
+Jinan University, Guangzhou, China}
+
+\begin{document}
+
+\maketitle
+
+<<options,echo=FALSE>>=
+options(width=60)
+require(MLclass)
+@
+
+\section{Linear Regression with one variable}
+
+<<gradDescent>>=
+data(ex1data1)
+theta <- c(0,0)
+linReg <- gradDescent(X, y, theta, alpha=0.01, max.iter=1500)
+getTheta(linReg)
+@
+
+\begin{figure}[htbp]
+\begin{center}
+<<plotLinearRegression, fig=T>>=
+plot(linReg)
+@
+\end{center}
+\caption{\label{plotLinearRegression} Linear Regression with One Variable}
+\end{figure}
+
+
+
+\section{Session Information}
+
+The version number of R and packages loaded for generating the vignette were:
+
+\begin{verbatim}
+<<echo=FALSE,results=tex>>=
+sessionInfo()
+@
+
+\end{verbatim}
+
+\end{document}

@@ -24,3 +24,4 @@
   \linkS4class{kMeansResult}, \link{kMeans}
 }
 \keyword{package}
+

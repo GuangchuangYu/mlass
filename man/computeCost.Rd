@@ -1,0 +1,27 @@
+\name{computeCost}
+\alias{computeCost}
+\title{computeCost}
+\usage{
+  computeCost(X, y, theta)
+}
+\arguments{
+  \item{X}{x values (a column of 1 was added)}
+
+  \item{y}{y values}
+
+  \item{theta}{theta values}
+}
+\value{
+  cost J
+}
+\description{
+  computing the cost J
+}
+\details{
+  The gradient descent algorithm was to minimize the cost
+  function.
+}
+\author{
+  Guangchuang Yu \url{http://ygc.name}
+}
+
