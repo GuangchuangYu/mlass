@@ -143,7 +143,7 @@ setGeneric("getCentroids", function(object) standardGeneric("getCentroids"))
 ##' @return graph
 ##' @author Guangchuang Yu \url{http://ygc.name}
 setMethod("plot", signature(object="kMeansResult"),
-          function (object, trace=F) {
+          function (object, trace=F, title="", xlab="", ylab="") {
               require(ggplot2)
               X = object@dataset
               colnames(X) <- c("V1", "V2")
@@ -152,15 +152,18 @@ setMethod("plot", signature(object="kMeansResult"),
               }
               idx <- object@clusters
               xx <- data.frame(X, cluster=as.factor(idx))
-              p <- ggplot(xx, aes(V1, V2))+geom_point(aes(color=cluster))
+              p <- ggplot(xx, aes(V1, V2))+
+                  geom_point(aes(color=cluster))
               if (trace) {
                   preCentroids <- object@traceCentroids
                   preCentroids <- data.frame(preCentroids,
                                              idx=rep(1:3, nrow(preCentroids)/3))
                   p <- p+geom_point(data=preCentroids,
-                                    aes(x=V1, y=V2)) +
+                                    aes(x=V1, y=V2, shape=2)) +
                                         geom_path(data=preCentroids,
-                                                  aes(x=V1, y=V2, group=idx))
+                                                  aes(x=V1, y=V2, group=idx)) +
+                                                      xlab(xlab) + ylab(ylab) +
+                                                          opts(title=title)
               }
               print(p)
           }
@@ -199,15 +202,4 @@ setMethod("getCentroids", signature(object="kMeansResult"),
               return(centroids)
           }
           )
-
-## dataset was converted from ML-class exercise 7  ex7data2.mat.
-##X <- load("ex7data2")
-##K <- 3
-##xx <- kMeans(X,K)
-
-
-## dataset was converted from ML-class exercise 7  ex7data2.mat.
-##X <- load("ex7data2")
-##K <- 3
-##xx <- kMeans(X,K)
 

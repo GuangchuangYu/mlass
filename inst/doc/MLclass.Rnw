@@ -67,10 +67,11 @@ linReg <- gradDescent(X, y, theta, alpha=0.01, max.iter=1500)
 getTheta(linReg)
 @
 
+@
 \begin{figure}[htbp]
 \begin{center}
 <<plotLinearRegression, fig=T>>=
-plot(linReg)
+plot(linReg, xlab="Population of City in 10,000s", ylab="Profit in $10,000s")
 @
 \end{center}
 \caption{\label{plotLinearRegression} Linear Regression with One Variable}
@@ -85,10 +86,11 @@ xx <- kMeans(X, centers=initCentroids)
 getClusters(xx)
 @
 
+@
 \begin{figure}[htbp]
 \begin{center}
 <<plotkMeans, fig=T>>=
-plot(xx, trace=TRUE)
+plot(xx, trace=TRUE, title="Iteration number 10")
 @
 \end{center}
 \caption{\label{plotkMeans} kMeans algorithm for clustering}

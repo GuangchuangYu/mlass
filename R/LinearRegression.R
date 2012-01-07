@@ -103,15 +103,24 @@ setMethod(getTheta, signature(object="linearRegressionResult"),
 ##' @return ggplot object
 ##' @author Guangchuang Yu \url{http://ygc.name}
 setMethod("plot",signature(object="linearRegressionResult"),
-          function(object) {
+          function(object, title="", xlab="", ylab="") {
               require(ggplot2)
               X <- object@X
               y <- object@y
               theta <- object@theta
-              pg <- ggplot()+aes(X[,2],y)+geom_point()+xlab("")+ylab("")
-              predicted <- as.vector(theta %*% t(X))
-			  predicted.df <- data.frame(x=X[,2], y=predicted)
-              pg <- pg+geom_line(data=predicted.df, aes(x=x,y=y, color="red"))+opts(legend.position="none")
+              pg <- ggplot()+ aes(X[,2],y) +
+                  geom_point() +
+                      xlab(xlab)+ylab(ylab) +
+                          opts(title=title)
+              ##predicted <- as.vector(theta %*% t(X))
+              ##predicted.df <- data.frame(x=X[,2], y=predicted)
+              ##pg <- pg+geom_line(data=predicted.df,
+              ##                   aes(x=x,y=y, color="red")) +
+              ##                       opts(legend.position="none")
+              pg <- pg +
+                  geom_abline(intercept=theta[1],
+                              slope=theta[2],
+                              colour="red")
               return(pg)
           }
           )
