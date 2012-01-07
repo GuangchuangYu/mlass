@@ -6,7 +6,7 @@ MLclass is my implementation of Machine Learning algorithms presented in ml-clas
 
 The following algorithms will be implemented:
 
-	Linear Regression with one variable
+	Linear Regression with one variable <2012-01-06, Fri>
 	Linear Regression with multiple variables
 	Logistic Regression
 	Regularization for preventing overfitting
