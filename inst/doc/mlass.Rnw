@@ -1,7 +1,7 @@
-% \VignetteIndexEntry{An introduction to MLclass}
+% \VignetteIndexEntry{An introduction to mlass}
 % \VignetteDepends{ggplot2, methods}
 % \VignetteKeywords{Machine Learning}
-% \VignettePackage{MLclass}
+% \VignettePackage{mlass}
 
 %\SweaveOpts{prefix.string=images/fig}
 
@@ -44,7 +44,7 @@
 
 \bibliographystyle{plainnat}
 
-\title{\Rpackage{MLclass}: an \R\, package implementing \\ Machine Learning algorithms presented in Stanford ML-class}
+\title{\Rpackage{mlass}: Machine Learning Algorithms}
 \author{Guangchuang Yu \\
 \\
 Jinan University, Guangzhou, China}
@@ -55,7 +55,7 @@ Jinan University, Guangzhou, China}
 
 <<options,echo=FALSE>>=
 options(width=60)
-require(MLclass)
+require(mlass)
 @
 
 \section{Linear Regression with one variable}

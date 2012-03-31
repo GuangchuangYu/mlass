@@ -1,13 +1,14 @@
 #' ML algorithms implemented for ML class.
 #'
-#' This package is designed to implement the ML algorithms presented in ML Class (http://www.ml-class.org, Stanford).
+#' This package is designed to implement the ML algorithms presented in 
+#' ML Class (http://www.ml-class.org, Stanford).
 #'
-#' \tabular{ll}{ Package: \tab MLclass\cr Type: \tab Package\cr
+#' \tabular{ll}{ Package: \tab mlass\cr Type: \tab Package\cr
 #' Version: \tab 0.1.1\cr Date: \tab 12-29-2011\cr Depends:\tab 
 #' ggplot2\cr License: \tab Artistic-2.0\cr }
 #'
-#' @name MLclass-package
-#' @aliases MLclass-package MLclass
+#' @name mlass-package
+#' @aliases mlass-package mlass
 #' @docType package
 #' @author Guangchuang Yu \email{guangchuangyu@@gmail.com}
 #'

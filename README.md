@@ -1,6 +1,9 @@
-# MLclass
+# mlass
 
-MLclass is my implementation of Machine Learning algorithms presented in ml-clas (http://ml-class.org, stanford).
+mlass is my implementation of Machine Learning algorithms presented in ml-clas (http://ml-class.org, stanford). 
+
+The package name mlass is a combination of ml and class.
+
 
 # Algorithms
 
