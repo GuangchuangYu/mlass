@@ -5,10 +5,13 @@ CHANGES IN VERSION 0.2.3
  		previous version 		current version
  		getClusters(x)			x["clusters"]
  		getCentroids(x)			x["centroids"]
+ o update vignette kmeans algorithm section, add algorithm description
+ 	and example applying to iris data set. <2012-04-01, Sun>
 
 CHANGES IN VERSION 0.2.2
 ------------------------
- o add xlab, ylab, title parameter in plot for kMeansResult and linearRegressionResult and update vignette <2012-01-07, Sat>
+ o add xlab, ylab, title parameter in plot for kMeansResult and 
+	linearRegressionResult and update vignette <2012-01-07, Sat>
 
 CHANGES IN VERSION 0.2.1
 ------------------------

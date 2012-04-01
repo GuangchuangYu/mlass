@@ -28,14 +28,6 @@ setClass("kMeansResult",
 
 
 ##' Randomly initial centroids for K clusters
-##'
-##' Randomly selected K features from dataset X
-##' @title kMeansInitCentroids
-##' @param X data matrix
-##' @param K numberic for setting K clusters
-##' @return randomly centroids
-##' @seealso \code{\link{kMeans}}
-##' @author Guangchuang Yu \url{http://ygc.name}
 kMeansInitCentroids <- function(X, K) {
     rand.idx <- sample(1:nrow(X), K)
     centroids <- X[rand.idx,]
@@ -43,13 +35,6 @@ kMeansInitCentroids <- function(X, K) {
 }
 
 ##' finding cloest centroids
-##'
-##'
-##' @title findClosestCentroids
-##' @param X dataset
-##' @param centroids centroids
-##' @return cluster index
-##' @author Guangchuang Yu \url{http://ygc.name}
 findClosestCentroids <- function(X, centroids) {
     ## finding closest centroids
 
@@ -69,14 +54,6 @@ findClosestCentroids <- function(X, centroids) {
 }
 
 ##' computing centroids
-##'
-##'
-##' @title computeCentroids
-##' @param X dataset
-##' @param idx cluster index
-##' @param K cluster number
-##' @return centroids
-##' @author Guangchuang Yu \url{http://ygc.name}
 computeCentroids <- function(X, idx, K) {
     centroids <- sapply(1:K, function(i)
                         colMeans(X[idx == i,]))
@@ -149,18 +126,21 @@ setMethod("plot", signature(x="kMeansResult"),
           function (x, trace=F, title="", xlab="", ylab="") {
               ##require(ggplot2)
               X = x@dataset
-              colnames(X) <- c("V1", "V2")
-              if(ncol(X) != 2) {
-                  stop("plot function only support two features in dataset.")
+              V1 = colnames(X)[1]
+              V2 = colnames(X)[2]
+              ## colnames(X) <- c("V1", "V2")
+              if(ncol(X) > 2) {
+                  warnings("plot function only visualize features in the first two columns.")
               }
               idx <- x@clusters
               xx <- data.frame(X, cluster=as.factor(idx))
-              p <- ggplot(xx, aes(V1, V2))+
+              p <- ggplot(xx, aes_string(x=V1, y=V2))+
                   geom_point(aes(color=cluster))
               if (trace) {
                   preCentroids <- x@traceCentroids
+                  K <- x@K
                   preCentroids <- data.frame(preCentroids,
-                                             idx=rep(1:3, nrow(preCentroids)/3))
+                                             idx=rep(1:K, nrow(preCentroids)/K))
                   p <- p+geom_point(data=preCentroids,
                                     aes(x=V1, y=V2)) +
                                         geom_path(data=preCentroids,
@@ -181,7 +161,7 @@ setMethod(
               if(i=="clusters")
                   return(x@clusters)
               if(i=="centroids")
-                  return(centroids)
+                  return(x@centroids)
           }
           )
 

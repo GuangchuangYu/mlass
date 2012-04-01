@@ -1,7 +1,5 @@
 export(gradDescent)
 export(kMeans)
-exportMethods(getCentroids)
-exportMethods(getClusters)
 exportMethods(getTheta)
 exportMethods(plot)
 importFrom(ggplot2,aes)

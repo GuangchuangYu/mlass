@@ -1,21 +1,10 @@
 \name{findClosestCentroids}
 \alias{findClosestCentroids}
-\title{findClosestCentroids}
+\title{finding cloest centroids}
 \usage{
   findClosestCentroids(X, centroids)
 }
-\arguments{
-  \item{X}{dataset}
-
-  \item{centroids}{centroids}
-}
-\value{
-  cluster index
-}
 \description{
   finding cloest centroids
-}
-\author{
-  Guangchuang Yu \url{http://ygc.name}
 }
 

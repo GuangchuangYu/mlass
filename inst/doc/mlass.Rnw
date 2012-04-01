@@ -77,13 +77,58 @@ plot(linReg, xlab="Population of City in 10,000s", ylab="Profit in $10,000s")
 \caption{\label{plotLinearRegression} Linear Regression with One Variable}
 \end{figure}
 
-\section{K-Means algorithm}
+\section{K-Means Clustering Algorithm}
 
-<<gradDescent>>=
+The K-means algorithm is a method to automatically cluster similar
+data examples together. Concretely, you are given a training set
+$\{x^{(1)},...,x^{(m)}\}$ (where $x^{(i)} \in \mathbb{R^{n}}$), and want
+to group the data into a few cohesive clusters.
+
+The intuition behind K-means is an iterative procedure that starts by
+guessing the initial centroids, and then refines this guess by
+repeately assigning examples to their closest centroids and then
+recomputing the centroids based on the assignments.
+
+The K-means algorithm is as follows:
+\begin{itemize}
+  \item Initialize centroids
+
+    In \Rpackage{mlass}  package, parameter \textit{centers} can be
+    set to K, which will initialize K centroids randomly, or user
+    specific centroids.
+
+  \item Refines the centroids
+
+    Find closest centroids for each data point.
+
+    Assign each data point to the closest centroid.
+
+    Recompute the centroids based on the assignments.
+
+    Repeat this procedure until it reach \textit{max.iter} (default is 10).
+
+\end{itemize}
+
+The K-means algorithm will always converge to some final set of means
+for the centroids. Note that the converged solution may not always be
+ideal and depends on the initial setting of the centroids. Therefore,
+in practice the K-means algorithm is usually run a few times with
+different random initializations. One way to choose between these
+different solutions from different random initializations is to choose
+the one with the lowest cost function value (distortion).
+
+
+Case Study:
+\begin{itemize}
+  \item Example in ML-class \url{http://ml-class.org}.
+
+<<kmeans>>=
 data(ex7data2)
 initCentroids <- matrix(c(3,3,6,2,8,5), byrow=T,ncol=2)
 xx <- kMeans(X, centers=initCentroids)
+## accessing result items
 xx["clusters"]
+xx["centroids"]
 @
 
 @
@@ -96,6 +141,26 @@ plot(xx, trace=TRUE, title="Iteration number 10")
 \caption{\label{plotkMeans} kMeans algorithm for clustering}
 \end{figure}
 
+\item IRIS dataset.
+<<iris>>=
+data(iris)
+iris.data=as.matrix(iris[,-5])
+x=kMeans(iris.data, centers=3)
+l <- sapply(1:3, function(i)
+            names(which.max(table(iris[x["clusters"] == i,5]))))
+## clustering accuracy
+sum(as.numeric(factor(iris[,5], levels=l)) == x["clusters"])/length(iris[,5])
+@
+
+The \Rfunction{plot}  function fo visualizing the clustering result
+only support two features. User can use it to visualize the clustering
+result, with only the first two columns in iris data plotted.
+
+\end{itemize}
+
+K means algorithm can apply for image compression. As an example,
+please refer to:
+\url{http://ygc.name/2011/12/26/image-compression-using-kmeans/}.
 
 \section{Session Information}
 
