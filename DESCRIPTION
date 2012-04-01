@@ -2,14 +2,18 @@ Package: mlass
 Type: Package
 Title: Machine Learning Algorithms
 Description: ML algorithms
-Version: 0.2.2
+Version: 0.2.3
 Author: Guangchuang Yu
 Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
 Date: 2012-01-06
 License: Artistic-2.0
-Depends: methods, ggplot2
-Collate: 
-	'kMeans.R' 
-	'MLclass-package.R' 
-	'LinearRegression.R'
+Depends: R (>= 2.10)
+Imports:
+	methods,
+	stats4,
+	ggplot2
+Collate:
+    'kMeans.R'
+    'LinearRegression.R'
+    'mlass-package.R'
 Packaged: 2012-01-07 10:14:17 UTC; root

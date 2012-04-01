@@ -1,9 +1,11 @@
 \docType{methods}
 \name{plot}
 \alias{plot}
+\alias{plot,kMeansResult}
+\alias{plot,linearRegressionResult,ANY-method}
 \title{plot method}
 \arguments{
-  \item{object}{A \code{kMeans} instance}
+  \item{x}{A \code{kMeans} instance}
 
   \item{trace}{tracing centroids when algorithm progress}
 

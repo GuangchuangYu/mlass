@@ -43,7 +43,7 @@ computeCost <- function(X, y, theta) {
 
 ##' Gradient descent algorithm for linear regression
 ##'
-##' .. content for \details{} ..
+##'
 ##' @title gradDescent
 ##' @param X x values (a column of 1 was added)
 ##' @param y y values
@@ -97,17 +97,27 @@ setMethod(getTheta, signature(object="linearRegressionResult"),
 ##' @name plot
 ##' @docType methods
 ##' @rdname plot-methods
+##' @aliases plot,linearRegressionResult,ANY-method
 ##'
 ##' @title plot method
 ##' @param object A \code{linearRegressionResult} instance.
 ##' @return ggplot object
+##' @importFrom stats4 plot
+##' @exportMethod plot
+##' @importFrom ggplot2 ggplot
+##' @importFrom ggplot2 aes
+##' @importFrom ggplot2 geom_point
+##' @importFrom ggplot2 xlab
+##' @importFrom ggplot2 ylab
+##' @importFrom ggplot2 opts
+##' @importFrom ggplot2 geom_abline
 ##' @author Guangchuang Yu \url{http://ygc.name}
-setMethod("plot",signature(object="linearRegressionResult"),
-          function(object, title="", xlab="", ylab="") {
+setMethod("plot",signature(x="linearRegressionResult"),
+          function(x, title="", xlab="", ylab="") {
               require(ggplot2)
-              X <- object@X
-              y <- object@y
-              theta <- object@theta
+              X <- x@X
+              y <- x@y
+              theta <- x@theta
               pg <- ggplot()+ aes(X[,2],y) +
                   geom_point() +
                       xlab(xlab)+ylab(ylab) +

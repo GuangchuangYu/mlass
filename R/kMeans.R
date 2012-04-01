@@ -4,7 +4,8 @@
 ##'
 ##' @name kMeansResult-class
 ##' @aliases kMeansResult-class
-##'   getClusters, kMeansResult-method plot, kMeansResult-method
+##'   getClusters,kMeansResult-method
+##'   plot,kMeansResult-method
 ##'
 ##' @docType class
 ##' @slot dataset original dataset
@@ -40,6 +41,7 @@ kMeansInitCentroids <- function(X, K) {
     centroids <- X[rand.idx,]
     return(centroids)
 }
+
 ##' finding cloest centroids
 ##'
 ##'
@@ -65,6 +67,7 @@ findClosestCentroids <- function(X, centroids) {
     })
     return(idx)
 }
+
 ##' computing centroids
 ##'
 ##'
@@ -121,45 +124,45 @@ kMeans <- function(X, centers, max.iter = 10){
 }
 
 
-##' @exportMethod plot
-setGeneric("plot", function(object, ...) standardGeneric("plot"))
-
-##' @exportMethod getClusters
-setGeneric("getClusters", function(object) standardGeneric("getClusters"))
-
-##' @exportMethod getCentroids
-setGeneric("getCentroids", function(object) standardGeneric("getCentroids"))
-
-
 ##' plot method for \code{kMeansResult} instance
 ##'
 ##' @name plot
 ##' @docType methods
 ##' @rdname plot-methods
+##' @aliases plot,kMeansResult
 ##'
 ##' @title plot method
-##' @param object A \code{kMeans} instance
+##' @param x A \code{kMeans} instance
 ##' @param trace tracing centroids when algorithm progress
 ##' @return graph
+##' @importFrom stats4 plot
+##' @exportMethod plot
+##' @importFrom ggplot2 ggplot
+##' @importFrom ggplot2 geom_point
+##' @importFrom ggplot2 aes
+##' @importFrom ggplot2 geom_path
+##' @importFrom ggplot2 xlab
+##' @importFrom ggplot2 ylab
+##' @importFrom ggplot2 opts
 ##' @author Guangchuang Yu \url{http://ygc.name}
-setMethod("plot", signature(object="kMeansResult"),
-          function (object, trace=F, title="", xlab="", ylab="") {
-              require(ggplot2)
-              X = object@dataset
+setMethod("plot", signature(x="kMeansResult"),
+          function (x, trace=F, title="", xlab="", ylab="") {
+              ##require(ggplot2)
+              X = x@dataset
               colnames(X) <- c("V1", "V2")
               if(ncol(X) != 2) {
                   stop("plot function only support two features in dataset.")
               }
-              idx <- object@clusters
+              idx <- x@clusters
               xx <- data.frame(X, cluster=as.factor(idx))
               p <- ggplot(xx, aes(V1, V2))+
                   geom_point(aes(color=cluster))
               if (trace) {
-                  preCentroids <- object@traceCentroids
+                  preCentroids <- x@traceCentroids
                   preCentroids <- data.frame(preCentroids,
                                              idx=rep(1:3, nrow(preCentroids)/3))
                   p <- p+geom_point(data=preCentroids,
-                                    aes(x=V1, y=V2, shape=2)) +
+                                    aes(x=V1, y=V2)) +
                                         geom_path(data=preCentroids,
                                                   aes(x=V1, y=V2, group=idx)) +
                                                       xlab(xlab) + ylab(ylab) +
@@ -169,37 +172,16 @@ setMethod("plot", signature(object="kMeansResult"),
           }
           )
 
-##' getClusters method for \code{kMeansResult} instance
-##'
-##' @name getClusters
-##' @docType methods
-##' @rdname getClusters-methods
-##'
-##' @title getCluster method
-##' @param object A \code{kMeansResult} instance.
-##' @return cluster index
-##' @author Guangchuang Yu \url{http://ygc.name}
-setMethod("getClusters", signature(object="kMeansResult"),
-          function(object) {
-              clusters <- object@clusters
-              return(clusters)
-          }
-          )
 
-##' getCentroids method for \code{kMeansResult} instance
-##'
-##' @name getCentroids
-##' @docType methods
-##' @rdname getCentroids-methods
-##'
-##' @title getCentroids method
-##' @param object A \code{kMeansResult} instance.
-##' @return centroids
-##' @author Guangchuang Yu \url{http://ygc.name}
-setMethod("getCentroids", signature(object="kMeansResult"),
-          function(object) {
-              centroids <- object@centroids
-              return(centroids)
+##' exportMethod "["
+setMethod(
+          f="[",
+          signature=signature(x="kMeansResult", i="character"),
+          definition=function(x,i,j,...) {
+              if(i=="clusters")
+                  return(x@clusters)
+              if(i=="centroids")
+                  return(centroids)
           }
           )
 

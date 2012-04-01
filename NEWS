@@ -1,4 +1,13 @@
+CHANGES IN VERSION 0.2.3
+------------------------
+ o update code for ggplot2 (>=0.9.0) <2012-04-01, Sun>
+ o redefine access method for kMeansResult <2012-04-01, Sun>
+ 		previous version 		current version
+ 		getClusters(x)			x["clusters"]
+ 		getCentroids(x)			x["centroids"]
+
 CHANGES IN VERSION 0.2.2
+------------------------
  o add xlab, ylab, title parameter in plot for kMeansResult and linearRegressionResult and update vignette <2012-01-07, Sat>
 
 CHANGES IN VERSION 0.2.1
@@ -15,7 +24,7 @@ CHANGES IN VERSION 0.1.2
 
 CHANGES IN VERSION 0.1.1
 ------------------------
- o update MLclass-package.R (2011-12-30)
+ o update mlass-package.R (2011-12-30)
 
 CHANGES IN VERSION 0.1.0
 ------------------------

@@ -1,7 +1,7 @@
 \docType{package}
-\name{MLclass-package}
-\alias{MLclass}
-\alias{MLclass-package}
+\name{mlass-package}
+\alias{mlass}
+\alias{mlass-package}
 \title{ML algorithms implemented for ML class.}
 \description{
   This package is designed to implement the ML algorithms
@@ -9,7 +9,7 @@
   Stanford).
 }
 \details{
-  \tabular{ll}{ Package: \tab MLclass\cr Type: \tab
+  \tabular{ll}{ Package: \tab mlass\cr Type: \tab
   Package\cr Version: \tab 0.1.1\cr Date: \tab
   12-29-2011\cr Depends:\tab ggplot2\cr License: \tab
   Artistic-2.0\cr }

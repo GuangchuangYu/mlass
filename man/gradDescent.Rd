@@ -21,9 +21,6 @@
 \description{
   Gradient descent algorithm for linear regression
 }
-\details{
-  .. content for \details{} ..
-}
 \author{
   Guangchuang Yu \url{http://ygc.name}
 }

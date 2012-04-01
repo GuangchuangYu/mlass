@@ -83,7 +83,7 @@ plot(linReg, xlab="Population of City in 10,000s", ylab="Profit in $10,000s")
 data(ex7data2)
 initCentroids <- matrix(c(3,3,6,2,8,5), byrow=T,ncol=2)
 xx <- kMeans(X, centers=initCentroids)
-getClusters(xx)
+xx["clusters"]
 @
 
 @
