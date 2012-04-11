@@ -4,7 +4,7 @@
 ##'
 ##' @name kMeansResult-class
 ##' @aliases kMeansResult-class
-##'   getClusters,kMeansResult-method
+##'   "[",kMeansResult-method
 ##'   plot,kMeansResult-method
 ##'
 ##' @docType class
@@ -117,6 +117,7 @@ kMeans <- function(X, centers, max.iter = 10){
 ##' @importFrom ggplot2 ggplot
 ##' @importFrom ggplot2 geom_point
 ##' @importFrom ggplot2 aes
+##' @importFrom ggplot2 aes_string
 ##' @importFrom ggplot2 geom_path
 ##' @importFrom ggplot2 xlab
 ##' @importFrom ggplot2 ylab

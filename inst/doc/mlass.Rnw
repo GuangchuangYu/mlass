@@ -162,6 +162,56 @@ K means algorithm can apply for image compression. As an example,
 please refer to:
 \url{http://ygc.name/2011/12/26/image-compression-using-kmeans/}.
 
+\section{Support Vector Machine}
+
+Dataset \textit{ex6data1} can be separated by linear boundary.
+
+<<<svm linear>>=
+data(ex6data1)
+m <- svmTrain(X,y, C=1, kernelFunction="linearKernel")
+head(m["X"])
+head(m["y"])
+m["w"]
+m["b"]
+m["alphas"]
+@
+
+@
+\begin{figure}[htbp]
+\begin{center}
+<<plotsvmLinear, fig=T>>=
+plot(m, X,y, type="linear")
+@
+\end{center}
+\caption{\label{plotsvmLinear} svm algorithm for linear decision boundaries}
+\end{figure}
+
+
+
+
+
+<<<svm nonlinear>>=
+data(ex6data2)
+model <- svmTrain(X,y, C=1, kernelFunction="gaussianKernel")
+head(model["X"])
+head(model["y"])
+model["w"]
+model["b"]
+head(model["alphas"])
+@
+
+@
+\begin{figure}[htbp]
+\begin{center}
+<<plotsvmnonLinear, fig=T>>=
+plot(model, X,y, type="nonlinear")
+@
+\end{center}
+\caption{\label{plotsvmnonLinear} svm algorithm for non-linear decision boundaries}
+\end{figure}
+
+
+
 \section{Session Information}
 
 The version number of R and packages loaded for generating the vignette were:

@@ -1,4 +1,8 @@
-CHANGES IN VERSION 0.2.3
+CHANGES IN VERSION 0.3.0
+------------------------
+ o implement SMO algorithm for SVM training. <2012-04-11, Wed>
+
+CHANGES IN VERSION 0.2.0
 ------------------------
  o update code for ggplot2 (>=0.9.0) <2012-04-01, Sun>
  o redefine access method for kMeansResult <2012-04-01, Sun>
@@ -7,28 +11,13 @@ CHANGES IN VERSION 0.2.3
  		getCentroids(x)			x["centroids"]
  o update vignette kmeans algorithm section, add algorithm description
  	and example applying to iris data set. <2012-04-01, Sun>
-
-CHANGES IN VERSION 0.2.2
-------------------------
  o add xlab, ylab, title parameter in plot for kMeansResult and 
 	linearRegressionResult and update vignette <2012-01-07, Sat>
-
-CHANGES IN VERSION 0.2.1
-------------------------
  o add kMeans section in vignette <2012-01-06, Fri>
- 
-CHANGES IN VERSION 0.2.0
-------------------------
  o implemented linear regression with one variable <2012-01-06, Fri>
-
-CHANGES IN VERSION 0.1.2
-------------------------
- o add getCentroids method for kMeansResult class and export it (2011-12-30)
-
-CHANGES IN VERSION 0.1.1
-------------------------
- o update mlass-package.R (2011-12-30)
 
 CHANGES IN VERSION 0.1.0
 ------------------------
+ o add getCentroids method for kMeansResult class and export it (2011-12-30)
+ o update mlass-package.R (2011-12-30)
  o implement kMeans algorithm

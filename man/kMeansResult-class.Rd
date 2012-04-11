@@ -1,7 +1,7 @@
 \docType{class}
 \name{kMeansResult-class}
-\alias{getClusters,kMeansResult-method}
 \alias{kMeansResult-class}
+\alias{"[",kMeansResult-method}
 \alias{plot,kMeansResult-method}
 \title{Class "kMeansResult"
 This class represents the result of kmeans clustering.}
