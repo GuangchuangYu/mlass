@@ -102,6 +102,7 @@ svmTrain <- function(X, Y, C, kernelFunction="linearKernel",
     E <- rep(0, m)
     iter <- eta <- L <- H <- 0
 
+    ## transformations of original data to map into new space
     if(kernelFunction == "linearKernel") {
         K <- X %*% t(X)
     } else if (kernelFunction == "gaussianKernel") {

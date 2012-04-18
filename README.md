@@ -14,7 +14,7 @@ The following algorithms will be implemented:
 	Logistic Regression
 	Regularization for preventing overfitting
 	Neural Networks
-	Support Vector Machines
+	Support Vector Machines <2012-04-11, Wed>
 	K-Means algorithm <2011-12-30, Fri>
 	Principal Component Analysis
 

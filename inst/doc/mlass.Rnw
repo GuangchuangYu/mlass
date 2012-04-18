@@ -164,7 +164,66 @@ please refer to:
 
 \section{Support Vector Machine}
 
-Dataset \textit{ex6data1} can be separated by linear boundary.
+Vladimir Vapnik invented Support Vector Machines in 1979. In its
+simplest form, an SVM is a hyperplane that separates a set of positive
+examples from a set of negative examples with maximum margin.
+
+\begin{figure}[htb]
+  \begin{center}
+    \includegraphics[width=.7\linewidth]{linearSVM.png}
+    \caption{A linear Support Vector Machine}
+    \label{Fig:linearSVM}
+  \end{center}
+\end{figure}
+
+In the linear case, the margin is defined by the distance of the
+\textit{hyperplane} (decision boundary ) to the nearest of the
+positive and negative examples, which were also known as
+\textit{support vectors}.
+
+The object of SVM is to maximize the distance from the
+\textit{hyperplane} to the \textit{support vectors}.
+
+The formula for the output of a linear SVM is
+
+$w^{T}x+b$,
+
+where \textit{w} is the normal vector to the \textit{hyperplane} and
+\textit{x} is the input vector. The separating hyperplane is the plane
+$u = 0$. The nearest points lie on the planes $u = \pm{1}$. The margin
+\textit{m} is thus
+
+$m = \frac{1}{\|\mathbf{w}\|}$
+
+The problem of finding the optimal hyperplane is an optimization
+problem and can be solved by optimization techniques (use Lagrange
+multipliers to get into a form that can be solved analytically).
+
+
+Training a support vector machine requires the solution of a very
+large quadratic programming (QP) optimization problem. Sequential
+Minimal Optimization (SMO) breaks this large QP problem into a series
+of smallest possible QP problems. These small QP problems are solved
+analytically, which avoids using a time-consuming numerical QP
+optimization as an inner loop. The amount of memory required for SMO
+is linear in the training set size, which allows SMO to handle very
+large training sets.
+
+The SMO algorithm details were describe in \textit{Sequential Minimal
+  Optimization: A Fast Algorithm for Training Support Vector Machines}
+by John Platt.
+
+\begin{itemize}
+  \item finding the maximum margin
+
+
+\end{itemize}
+
+Case Study:
+\begin{itemize}
+  \item Linear classification with Example 1 in ML-class.
+
+    Dataset \textit{ex6data1} can be separated by linear boundary.
 
 <<<svm linear>>=
 data(ex6data1)
@@ -186,9 +245,23 @@ plot(m, X,y, type="linear")
 \caption{\label{plotsvmLinear} svm algorithm for linear decision boundaries}
 \end{figure}
 
+Notice that there is an outlier positive example on the far left at
+about (0.1, 4.1). In \Rfunction{svmTrain}, the \textit{C} parameter is
+a positive value that controls the penalty for misclassified training
+examples. A large C parameter tells the SVM to try to classify all the
+examples correctly. \textit{C} plays a role similar to
+$\frac{1}{\lambda}$, where $\lambda$ is the regularization parameter
+for logistic regression.
 
+\item Non-linear classification with Example 2 in ML-class.
 
-
+  Dataset \textit{ex6data2} is not linearly separable. To find
+  non-linear decision boundaries with SVM, we implemented a Gaussian
+  kernel, which performed as a similarity function that measures the
+  "distance" between a pair of examples, ($x^i, x^j$). The Gaussian
+  kernel is also parameterized by a bandwidth parameter, $\sigma$,
+  which determines how fast the similarity metric decreases (to 0) as
+  the examples are further apart.
 
 <<<svm nonlinear>>=
 data(ex6data2)
@@ -210,7 +283,12 @@ plot(model, X,y, type="nonlinear")
 \caption{\label{plotsvmnonLinear} svm algorithm for non-linear decision boundaries}
 \end{figure}
 
+After using the Gaussian kernel with the SVM, the non-linear decision
+boundary was determined reasonably well. The decision boundary is able
+to separate most of the positive and negative examples correctly and
+follows the contours of the dataset well.
 
+\end{itemize}
 
 \section{Session Information}
 
