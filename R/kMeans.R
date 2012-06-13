@@ -36,8 +36,8 @@ kMeansInitCentroids <- function(X, K) {
 
 
 ##' finding cloest centroids
-findClosestCentroids <- function(X, centroids) {
-  idx = .Call("findClosestCentroids", 
+findClosestCentroids_cpp <- function(X, centroids) {
+  idx <- .Call("findClosestCentroids", 
               X, centroids,
               package="mlass"
               )
@@ -45,7 +45,7 @@ findClosestCentroids <- function(X, centroids) {
 }
 
 
-findClosestCentroids_R <- function(X, centroids) {
+findClosestCentroids <- function(X, centroids) {
     ## finding closest centroids
 
     # set K
@@ -72,6 +72,13 @@ computeCentroids <- function(X, idx, K) {
     return(centroids)
 }
 
+computeCentroids_cpp <- function(X, idx, K) {
+  centroids <- .Call("computeCentroids",
+                    X, idx, K,
+                    package="mlass")
+  return(centroids)
+}
+
 ##' kMeans algorithm
 ##'
 ##' kmeans algorithm
@@ -84,12 +91,13 @@ computeCentroids <- function(X, idx, K) {
 ##' @export
 ##' @author Guangchuang Yu \url{http://ygc.name}
 ##' @keywords manip
-kMeans <- function(X, centers, max.iter = 10){
+kMeans <- function(X, centers, max.iter = 10, lang="CPP"){
+    X <- as.matrix(X)
     if(length(centers) == 1L) {
         K <- centers
         initCentroids <- kMeansInitCentroids(X, K)
     } else {
-        initCentroids <- centers
+        initCentroids <- as.matrix(centers)
     }
 
     K <- nrow(initCentroids)
@@ -97,8 +105,14 @@ kMeans <- function(X, centers, max.iter = 10){
     preCentroids <- centroids
 
     for (i in 1:max.iter) {
+
+      if (lang == "CPP") {
+        idx <- findClosestCentroids_cpp(X, centroids)
+        centroids <- computeCentroids_cpp(X, idx, K)
+      } else if (lang == "R") {
         idx <- findClosestCentroids(X, centroids)
         centroids <- computeCentroids(X, idx, K)
+      }
         preCentroids <- rbind(preCentroids, centroids)
     }
 
