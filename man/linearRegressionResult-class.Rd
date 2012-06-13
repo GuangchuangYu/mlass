@@ -1,9 +1,9 @@
 \docType{class}
 \name{linearRegressionResult-class}
 \alias{getTheta,}
-\alias{lineareRegressionResult-method}
 \alias{linearRegressionResult-class}
 \alias{linearRegressionResult-method}
+\alias{lineareRegressionResult-method}
 \alias{plot,}
 \title{Class "linearRegressionResult"
 This class represents the result of linear regression.}

@@ -34,8 +34,18 @@ kMeansInitCentroids <- function(X, K) {
     return(centroids)
 }
 
+
 ##' finding cloest centroids
 findClosestCentroids <- function(X, centroids) {
+  idx = .Call("findClosestCentroids", 
+              X, centroids,
+              package="mlass"
+              )
+  return(idx)
+}
+
+
+findClosestCentroids_R <- function(X, centroids) {
     ## finding closest centroids
 
     # set K
@@ -52,6 +62,7 @@ findClosestCentroids <- function(X, centroids) {
     })
     return(idx)
 }
+
 
 ##' computing centroids
 computeCentroids <- function(X, idx, K) {

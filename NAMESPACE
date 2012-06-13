@@ -1,8 +1,11 @@
+useDynLib(mlass)
+exportPattern("^[[:alpha:]]+")
+
 export(gradDescent)
 export(kMeans)
+export(svmTrain)
 exportMethods(getTheta)
 exportMethods(plot)
-export(svmTrain)
 importFrom(ggplot2,aes)
 importFrom(ggplot2,aes_string)
 importFrom(ggplot2,geom_abline)
