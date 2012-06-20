@@ -64,7 +64,7 @@ require(mlass)
 data(ex1data1)
 theta <- c(0,0)
 linReg <- gradDescent(X, y, theta, alpha=0.01, max.iter=1500)
-getTheta(linReg)
+linReg["theta"]
 @
 
 @

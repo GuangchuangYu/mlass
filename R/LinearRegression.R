@@ -72,25 +72,39 @@ gradDescent <- function(X,y, theta, alpha=0.01, max.iter=1500) {
         )
 }
 
-##' @exportMethod getTheta
-setGeneric("getTheta", function(object) standardGeneric("getTheta"))
+## ##' @exportMethod getTheta
+## setGeneric("getTheta", function(object) standardGeneric("getTheta"))
 
-##' getTheta method for \code{linearRegressionResult} instance
-##'
-##' @name getTheta
-##' @docType methods
-##' @rdname getTheta-methods
-##'
-##' @title getTheta method
-##' @param object A \code{linearRegressionResult} instance.
-##' @return theta
-##' @author Guangchuang Yu \url{http://ygc.name}
-setMethod(getTheta, signature(object="linearRegressionResult"),
-          function (object) {
-              theta <- object@theta
-              return(theta)
+## ##' getTheta method for \code{linearRegressionResult} instance
+## ##'
+## ##' @name getTheta
+## ##' @docType methods
+## ##' @rdname getTheta-methods
+## ##'
+## ##' @title getTheta method
+## ##' @param object A \code{linearRegressionResult} instance.
+## ##' @return theta
+## ##' @author Guangchuang Yu \url{http://ygc.name}
+## setMethod(getTheta, signature(object="linearRegressionResult"),
+##          function (object) {
+##              theta <- object@theta
+##              return(theta)
+##          }
+##          )
+
+
+##' @exportMethod "["
+setMethod(
+          f="[",
+          signature=signature(x="linearRegressionResult", i="character"),
+          function(x, i,j,...) {
+              if (i == "theta") {
+                  return(x@theta)
+              }
+
           }
           )
+
 
 ##' plot method for \code{linearRegressionResult} instance
 ##'
@@ -114,7 +128,6 @@ setMethod(getTheta, signature(object="linearRegressionResult"),
 ##' @author Guangchuang Yu \url{http://ygc.name}
 setMethod("plot",signature(x="linearRegressionResult"),
           function(x, title="", xlab="", ylab="") {
-              require(ggplot2)
               X <- x@X
               y <- x@y
               theta <- x@theta
