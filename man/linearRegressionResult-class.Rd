@@ -1,6 +1,6 @@
 \docType{class}
 \name{linearRegressionResult-class}
-\alias{getTheta,}
+\alias{"[",}
 \alias{linearRegressionResult-class}
 \alias{linearRegressionResult-method}
 \alias{lineareRegressionResult-method}

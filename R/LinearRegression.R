@@ -4,7 +4,7 @@
 ##'
 ##' @name linearRegressionResult-class
 ##' @aliases linearRegressionResult-class
-##'   getTheta, lineareRegressionResult-method plot, linearRegressionResult-method
+##'  "[", lineareRegressionResult-method plot, linearRegressionResult-method
 ##'
 ##' @docType class
 ##' @slot X x values (a column of 1 was added)
@@ -20,6 +20,9 @@ setClass("linearRegressionResult",
          theta="matrix"
          )
          )
+
+
+
 
 ##' computing the cost J
 ##'
@@ -72,19 +75,20 @@ gradDescent <- function(X,y, theta, alpha=0.01, max.iter=1500) {
         )
 }
 
-## ##' @exportMethod getTheta
+
+## @exportMethod getTheta
 ## setGeneric("getTheta", function(object) standardGeneric("getTheta"))
 
-## ##' getTheta method for \code{linearRegressionResult} instance
-## ##'
-## ##' @name getTheta
-## ##' @docType methods
-## ##' @rdname getTheta-methods
-## ##'
-## ##' @title getTheta method
-## ##' @param object A \code{linearRegressionResult} instance.
-## ##' @return theta
-## ##' @author Guangchuang Yu \url{http://ygc.name}
+## getTheta method for \code{linearRegressionResult} instance
+##
+## @name getTheta
+## @docType methods
+## @rdname getTheta-methods
+##
+## @title getTheta method
+## @param object A \code{linearRegressionResult} instance.
+## @return theta
+## @author Guangchuang Yu \url{http://ygc.name}
 ## setMethod(getTheta, signature(object="linearRegressionResult"),
 ##          function (object) {
 ##              theta <- object@theta
@@ -132,18 +136,20 @@ setMethod("plot",signature(x="linearRegressionResult"),
               y <- x@y
               theta <- x@theta
               pg <- ggplot()+ aes(X[,2],y) +
-                  geom_point() +
-                      xlab(xlab)+ylab(ylab) +
-                          opts(title=title)
-              ##predicted <- as.vector(theta %*% t(X))
-              ##predicted.df <- data.frame(x=X[,2], y=predicted)
-              ##pg <- pg+geom_line(data=predicted.df,
+                  geom_point()
+
+              ## predicted <- as.vector(theta %*% t(X))
+              ## predicted.df <- data.frame(x=X[,2], y=predicted)
+              ## pg <- pg+geom_line(data=predicted.df,
               ##                   aes(x=x,y=y, color="red")) +
               ##                       opts(legend.position="none")
               pg <- pg +
                   geom_abline(intercept=theta[1],
                               slope=theta[2],
                               colour="red")
+
+              pg <- pg + xlab(xlab) + ylab(ylab) +
+                  opts(title=title)
               return(pg)
           }
           )

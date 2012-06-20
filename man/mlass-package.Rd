@@ -10,8 +10,8 @@
 }
 \details{
   \tabular{ll}{ Package: \tab mlass\cr Type: \tab
-  Package\cr Version: \tab 0.1.1\cr Date: \tab
-  12-29-2011\cr Depends:\tab ggplot2\cr License: \tab
+  Package\cr Version: \tab 0.3.0\cr Date: \tab
+  06-20-2012\cr Depends:\tab ggplot2\cr License: \tab
   Artistic-2.0\cr }
 }
 \author{

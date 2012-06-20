@@ -11,7 +11,7 @@ The following algorithms will be implemented:
 
 	Linear Regression with one variable <2012-01-06, Fri>
 	Linear Regression with multiple variables
-	Logistic Regression
+	Logistic Regression <2012-06-20, Wed>
 	Regularization for preventing overfitting
 	Neural Networks
 	Support Vector Machines <2012-04-11, Wed>
