@@ -80,10 +80,14 @@ setClass("logisticRegressionResult",
 ##' @export
 ##' @author Yu Guangchuang \url{http://ygc.name}
 ##' @keywords manip
-logisticRegression <- function(X, y, max.iter=15, lambda=0, degree=6) {
+logisticRegression <- function(X, y, max.iter=15, lambda=0) {
+    if (lambda == 0) {
+        xx <-  X
+    } else {
+        xx <- apply(X, 1, function(i) mapFeature(i[1], i[2]))
+        xx <- t(xx)
+    }
 
-    xx <- apply(X, 1, function(i) mapFeature(i[1], i[2]))
-    xx <- t(xx)
     theta <- matrix(rep(0,ncol(xx)), ncol=1)
     for (i in 1:max.iter) {
         theta <- theta - solve(Hessian(theta, xx, lambda)) %*% grad(theta,xx,y, lambda)

@@ -33,21 +33,23 @@ setClass("linearRegressionResult",
 ##' @param theta theta values
 ##' @return cost J
 ##' @author Guangchuang Yu \url{http://ygc.name}
-computeCost <- function(X, y, theta) {
+computeCost <- function(X, y, theta, lambda=0) {
     ## number of training example.
     m <- length(y)
 
+    r <- theta^2
+    r[1] <- 0
     h <- theta %*% t(X)
     hh <- t(h) -y
-    J <- 1/(2*m) * sum(hh^2)
+    J <- 1/(2*m) * sum(hh^2) + lambda*sum(r)
 
     return(J)
 }
 
-##' Gradient descent algorithm for linear regression
+##' linear regression
 ##'
 ##'
-##' @title gradDescent
+##' @title linearRegression
 ##' @param X x values (a column of 1 was added)
 ##' @param y y values
 ##' @param theta initial theta values
@@ -58,16 +60,17 @@ computeCost <- function(X, y, theta) {
 ##' @export
 ##' @author Guangchuang Yu \url{http://ygc.name}
 ##' @keywords manip
-gradDescent <- function(X,y, theta, alpha=0.01, max.iter=1500) {
-    ## number of training examples
-    m <- length(y)
-
-    for (i in 1:max.iter) {
-        h <- theta %*% t(X)
-        dj <- t(t(h)-y) %*% X ## derivative of cost J.
-        theta <- theta - alpha * dj/m
+linearRegression <- function(X,y, theta, alpha=0.01, lambda=0, max.iter=1500, normalEqn=FALSE) {
+    if (normalEqn) {
+        theta <- normalEqn(X, y)
+    } else {
+        if (ncol(X) > 2) {
+            xx <- featureNormalize(X)
+        } else {
+            xx <- X
+        }
+        theta <- gradDescent(xx, y, theta, alpha, lambda, max.iter)
     }
-
     new("linearRegressionResult",
         X=X,
         y=y,
@@ -75,6 +78,40 @@ gradDescent <- function(X,y, theta, alpha=0.01, max.iter=1500) {
         )
 }
 
+## data(ex1data3)
+x <- mapFeature(X)
+theta <- matrix(rep(0, ncol(x)),nrow=1)
+aa <- linearRegression(x, y, theta, lambda=0, alpha=0.01)
+x.test <- seq(-1,1, 0.001)
+y.test <- mapFeature(x.test) %*% t(aa["theta"])
+p <- ggplot()+aes(x=X,y=y)+geom_point()
+p+geom_line(aes(x=x.test, y=y.test))
+
+
+## Normal equation
+normalEqn <- function(X, y, lambda=0) {
+    n <- ncol(X)
+    ## extra regularization terms
+    r <- lambda * diag(n)
+    r[1,1] <- 0
+    theta <- solve(t(X) %*% X + r) %*% t(x) %*% y
+    return(theta)
+}
+
+## Gradient descent algorithm
+gradDescent <- function(X, y, theta, alpha, max.iter, lambda=0) {
+    ## number of training examples
+    m <- length(y)
+
+    for (i in 1:max.iter) {
+        tt <- theta
+        tt[1] <- 0
+        h <- theta %*% t(X)
+        dj <- t(t(h)-y) %*% X + lambda * tt ## derivative of cost J.
+        theta <- theta - alpha * dj/m
+    }
+    return(theta)
+}
 
 ## @exportMethod getTheta
 ## setGeneric("getTheta", function(object) standardGeneric("getTheta"))
@@ -153,3 +190,16 @@ setMethod("plot",signature(x="linearRegressionResult"),
               return(pg)
           }
           )
+
+## normailze features using Z-score
+featureNormalize <- function(x) {
+    for (i in 2:ncol(x)) {
+        x[,i] <- (x[,i] - mean(x[,i]))/sd(x[,i])
+    }
+    return(x)
+}
+
+
+mapFeature <- function(x, degree=5){
+    return(sapply(0:degree, function(i) x^i))
+}
