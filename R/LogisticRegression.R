@@ -56,6 +56,7 @@
 ##' @slot X x values (a column of 1 was added)
 ##' @slot y y values
 ##' @slot theta theta values
+##' @slot lambda parameter for regularization
 ##' @seealso \code{\link{logisticRegression}}
 ##' @keywords classes
 ##' @author Guangchuang Yu \url{http://ygc.name}
@@ -63,7 +64,8 @@ setClass("logisticRegressionResult",
          representation=representation(
          X="matrix",
          y="numeric",
-         theta="matrix"
+         theta="matrix",
+         lambda="numeric"
          )
          )
 ##' Logistic Regression algorithm
@@ -78,16 +80,20 @@ setClass("logisticRegressionResult",
 ##' @export
 ##' @author Yu Guangchuang \url{http://ygc.name}
 ##' @keywords manip
-logisticRegression <- function(X, y, max.iter=15) {
-    theta <- rep(0,ncol(X))
+logisticRegression <- function(X, y, max.iter=15, lambda=0, degree=6) {
+
+    xx <- apply(X, 1, function(i) mapFeature(i[1], i[2]))
+    xx <- t(xx)
+    theta <- matrix(rep(0,ncol(xx)), ncol=1)
     for (i in 1:max.iter) {
-        theta <- theta - solve(Hessian(theta, X)) %*% grad(theta,X,y)
+        theta <- theta - solve(Hessian(theta, xx, lambda)) %*% grad(theta,xx,y, lambda)
     }
 
     new("logisticRegressionResult",
         X=X,
         y=y,
-        theta=theta
+        theta=theta,
+        lambda=lambda
         )
 }
 
@@ -125,29 +131,72 @@ setMethod(
 ##' @author Guangchuang Yu \url{http://ygc.name}
 setMethod("plot", signature(x="logisticRegressionResult"),
           function(x, title="", xlab="", ylab="") {
+
+              V2 <- V3 <- label <- Var1 <- Var2 <- value <- NULL
+
               xx <- x@X
               yy <- x@y
               tt <- x@theta
-
-              ## compute slope and intercept
-              x1 <- c(min(xx[,2]), max(xx[,2]))
-              x2 <- -1/tt[3,] * (tt[2,]*x1+tt[1,])
-              a <- (x2[2]-x2[1])/(x1[2]-x1[1])
-              b <- x2[2]-a*x1[2]
-
+              lambda <- x@lambda
 
               d <- data.frame(xx, y=factor(yy))
-              colnames(d) <- c("V1", "V2", "V3", "label")
+              if (lambda == 0) {
+                  colnames(d) <- c("V1", "V2", "V3", "label")
+              } else {
+                  colnames(d) <- c("V2", "V3", "label")
+              }
               p <- ggplot(d, aes(V2, V3, color=label))+
                   geom_point()
 
-              p <- p+geom_abline(slope=a, intercept=b)
 
+              if (lambda == 0) {
+                  ## compute slope and intercept
+                  x1 <- c(min(xx[,2]), max(xx[,2]))
+                  x2 <- -1/tt[3,] * (tt[2,]*x1+tt[1,])
+                  a <- (x2[2]-x2[1])/(x1[2]-x1[1])
+                  b <- x2[2]-a*x1[2]
+
+                  p <- p+geom_abline(slope=a, intercept=b)
+              } else {
+                  zz <- logisticPredict(x)
+                  p <- p+geom_contour(data=zz, aes(x=Var1,
+                                      y=Var2,
+                                      z=value),
+                                      color="green",
+                                      bins=1)
+              }
               p <- p+xlab(xlab)+ylab(ylab)+
                   opts(title=title)
               return(p)
           }
           )
+
+##' @importFrom reshape2 melt
+logisticPredict <- function(obj){
+    ## obj is a "logisticRegressionResult" instance
+    x <- obj@X
+    theta <- obj@theta
+    u <- seq(min(x[,1]), max(x[,1]), len=200)
+    v <- seq(min(x[,2]), max(x[,2]), len=200)
+    z <- matrix(0, length(u), length(v))
+    ## z <- sapply(u, function(i)
+    ##             sapply(v, function(j)
+    ##                    mapFeature(i,j) %*% theta
+    ##                    )
+    ##             )
+    ## z <- t(z)
+
+    for (i in 1:length(u)) {
+        for (j in 1:length(v)) {
+            f <- mapFeature(u[i],v[j])
+            z[i,j] <- f %*% theta
+        }
+    }
+    rownames(z) <- as.character(u)
+    colnames(z) <- as.character(v)
+    zz <- melt(z)
+    return(zz)
+}
 
 
 ## sigmoid function
@@ -164,30 +213,54 @@ h <- function(theta, x) {
 
 ## cost function
 
-J <- function(theta, x, y) {
+J <- function(theta, x, y, lambda=0) {
     m <- length(y)
-    s <- sapply(1:m, function(i)
-                y[i] * log(h(theta, x[i,])) +
-                (1-y[i]) * log(1-h(theta, x[i,]))
-                )
-    j <- -1/m * sum(s)
+    ## s <- sapply(1:m, function(i)
+    ##             y[i] * log(h(theta, x[i,])) +
+    ##             (1-y[i]) * log(1-h(theta, x[i,]))
+    ##             )
+    ## j <- -1/m * sum(s)
+    j <- -1/m * (
+                 y %*% log( h(theta, x) ) +
+                 (1-y) %*% log( 1-h(theta, x) )
+                 )
+    ## regularization
+    r <- theta^2
+    r[1] <- 0
+    j <- j + lambda/(2*m) * sum(r)
+
     return(j)
 }
 
 
 ## gradient
 
-grad <- function(theta, x, y) {
+grad <- function(theta, x, y, lambda=0) {
     m <- length(y)
-    g <- 1/m * t(x) %*% (h(theta,x)-y)
+    r <- lambda/m * theta
+    r[1] <- 0
+    g <- 1/m * t(x) %*% (h(theta,x)-y) + r
     return(g)
 }
 
 ## Hessian
-Hessian <- function(theta, x) {
+Hessian <- function(theta, x, lambda=0) {
     m <- nrow(x)
-    H <- 1/m * t(x) %*% x * diag(h(theta, x)) * diag(1-h(theta,x))
+    n <- ncol(x)
+    r <- lambda/m * diag(n)
+    r[1] <- 0
+    H <- 1/m * t(x) %*% x * diag(h(theta, x)) * diag(1-h(theta,x)) + r
     return(H)
 }
 
 
+mapFeature <- function(u, v, degree=6) {
+    out <- sapply(0:degree, function(i)
+                  sapply(0:i, function(j)
+                         u^(i-j) * v^j
+                         )
+                  )
+
+    out <- unlist(out)
+    return(out)
+}
