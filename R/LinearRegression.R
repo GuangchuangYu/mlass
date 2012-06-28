@@ -60,16 +60,16 @@ computeCost <- function(X, y, theta, lambda=0) {
 ##' @export
 ##' @author Guangchuang Yu \url{http://ygc.name}
 ##' @keywords manip
-linearRegression <- function(X,y, theta, alpha=0.01, lambda=0, max.iter=1500, normalEqn=FALSE) {
+linearRegression <- function(X,y, theta, alpha=0.01, lambda=0, max.iter=1000, normalEqn=FALSE, featureNormalize=FALSE) {
     if (normalEqn) {
         theta <- normalEqn(X, y)
     } else {
-        if (ncol(X) > 2) {
+        if (featureNormalize) {
             xx <- featureNormalize(X)
         } else {
             xx <- X
         }
-        theta <- gradDescent(xx, y, theta, alpha, lambda, max.iter)
+        theta <- gradDescent(xx, y, theta, alpha, max.iter, lambda)
     }
     new("linearRegressionResult",
         X=X,
@@ -80,12 +80,14 @@ linearRegression <- function(X,y, theta, alpha=0.01, lambda=0, max.iter=1500, no
 
 ## data(ex1data3)
 x <- mapFeature(X)
-theta <- matrix(rep(0, ncol(x)),nrow=1)
+theta <- rep(0, ncol(x))
 aa <- linearRegression(x, y, theta, lambda=0, alpha=0.01)
 x.test <- seq(-1,1, 0.001)
 y.test <- mapFeature(x.test) %*% t(aa["theta"])
-p <- ggplot()+aes(x=X,y=y)+geom_point()
-p+geom_line(aes(x=x.test, y=y.test))
+d <- data.frame(x=X, y=y)
+p <- ggplot(data=d, aes(x=x,y=y))+geom_point()
+dd <- data.frame(x.test=x.test, y.test=y.test)
+p+geom_line(data=dd, aes(x=x.test, y=y.test))
 
 
 ## Normal equation
@@ -107,11 +109,28 @@ gradDescent <- function(X, y, theta, alpha, max.iter, lambda=0) {
         tt <- theta
         tt[1] <- 0
         h <- theta %*% t(X)
+        ## h <- X %*% t(theta)
+        ## dj <- t(h-y) %*% X + lambda * tt
         dj <- t(t(h)-y) %*% X + lambda * tt ## derivative of cost J.
         theta <- theta - alpha * dj/m
+        ## print(theta)
     }
     return(theta)
 }
+
+gradDescent2 <- function( x, y,theta, alpha=0.1, niter=1000, lambda=1) {
+    m <- length(y)
+    for (i in 1:niter) {
+        tt <- theta
+        tt[1] <- 0
+        dj <- 1/m * (t(h(theta,x)-y) %*% x + lambda * tt)
+        theta <- theta - alpha * dj
+
+    }
+
+    return(theta)
+}
+
 
 ## @exportMethod getTheta
 ## setGeneric("getTheta", function(object) standardGeneric("getTheta"))
