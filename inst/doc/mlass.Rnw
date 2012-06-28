@@ -62,21 +62,29 @@ require(mlass)
 
 <<gradDescent>>=
 data(ex1data1)
-theta <- c(0,0)
-linReg <- gradDescent(X, y, theta, alpha=0.01, max.iter=1500)
-linReg["theta"]
+xx <- linearRegression(X, y, alpha=0.01, max.iter=1500)
+xx["theta"]
 @
 
 @
 \begin{figure}[htbp]
 \begin{center}
 <<plotLinearRegression, fig=T>>=
-plot(linReg, xlab="Population of City in 10,000s", ylab="Profit in $10,000s")
+plot(xx, xlab="Population of City in 10,000s", ylab="Profit in $10,000s")
 @
 \end{center}
 \caption{\label{plotLinearRegression} Linear Regression with One Variable}
 \end{figure}
 
+<<multi-variable>>=
+data(ex1data2)
+mm <- linearRegression(X, y, theta, normalEqn=TRUE)
+@
+<<regularization-linearRegression>>=
+data(ex1data3)
+aa <- linearRegression(X, y, lambda=1, alpha=0.1, degree=5)
+aa["theta"]
+@
 \section{K-Means Clustering Algorithm}
 
 The K-means algorithm is a method to automatically cluster similar

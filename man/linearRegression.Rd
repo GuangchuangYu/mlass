@@ -1,0 +1,30 @@
+\name{linearRegression}
+\alias{linearRegression}
+\title{linearRegression}
+\usage{
+  linearRegression(X, y, alpha = 0.01, lambda = 0,
+    max.iter = 1000, degree = 1, normalEqn = FALSE,
+    featureNormalize = FALSE)
+}
+\arguments{
+  \item{X}{x values (a column of 1 was added)}
+
+  \item{y}{y values}
+
+  \item{alpha}{learning rate}
+
+  \item{max.iter}{number of iteration}
+
+  \item{degree}{feature degree}
+}
+\value{
+  A \code{linearRegressionResult} instance.
+}
+\description{
+  linear regression
+}
+\author{
+  Guangchuang Yu \url{http://ygc.name}
+}
+\keyword{manip}
+

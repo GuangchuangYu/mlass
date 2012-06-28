@@ -10,6 +10,7 @@
 ##' @slot X x values (a column of 1 was added)
 ##' @slot y y values
 ##' @slot theta theta values
+##' @slot degree feature degree
 ##' @seealso \code{\link{gradDescent}}
 ##' @keywords classes
 ##' @author Guangchuang Yu \url{http://ygc.name}
@@ -17,7 +18,8 @@ setClass("linearRegressionResult",
          representation=representation(
          X="matrix",
          y="numeric",
-         theta="matrix"
+         theta="matrix",
+         degree="numeric"
          )
          )
 
@@ -52,42 +54,48 @@ computeCost <- function(X, y, theta, lambda=0) {
 ##' @title linearRegression
 ##' @param X x values (a column of 1 was added)
 ##' @param y y values
-##' @param theta initial theta values
 ##' @param alpha learning rate
 ##' @param max.iter number of iteration
+##' @param degree feature degree
 ##' @return A \code{linearRegressionResult} instance.
 ##' @importFrom methods new
 ##' @export
 ##' @author Guangchuang Yu \url{http://ygc.name}
 ##' @keywords manip
-linearRegression <- function(X,y, theta, alpha=0.01, lambda=0, max.iter=1000, normalEqn=FALSE, featureNormalize=FALSE) {
+linearRegression <- function(X,y, alpha=0.01, lambda=0, max.iter=1000, degree=1, normalEqn=FALSE, featureNormalize=FALSE) {
+    X <- as.matrix(X)
+    x <- linear.mapFeature(X, degree)
+
+    theta <- rep(0, ncol(x))
+
     if (normalEqn) {
-        theta <- normalEqn(X, y)
+        theta <- normalEqn(x, y)
     } else {
         if (featureNormalize) {
-            xx <- featureNormalize(X)
+            xx <- featureNormalize(x)
         } else {
-            xx <- X
+            xx <- x
         }
         theta <- gradDescent(xx, y, theta, alpha, max.iter, lambda)
     }
     new("linearRegressionResult",
         X=X,
         y=y,
-        theta=theta
+        theta=theta,
+        degree=degree
         )
 }
 
 ## data(ex1data3)
-x <- mapFeature(X)
-theta <- rep(0, ncol(x))
-aa <- linearRegression(x, y, theta, lambda=0, alpha=0.01)
-x.test <- seq(-1,1, 0.001)
-y.test <- mapFeature(x.test) %*% t(aa["theta"])
-d <- data.frame(x=X, y=y)
-p <- ggplot(data=d, aes(x=x,y=y))+geom_point()
-dd <- data.frame(x.test=x.test, y.test=y.test)
-p+geom_line(data=dd, aes(x=x.test, y=y.test))
+## x <- mapFeature(X)
+## theta <- rep(0, ncol(x))
+## aa <- linearRegression(x, y, theta, lambda=0, alpha=0.01)
+## x.test <- seq(-1,1, 0.001)
+## y.test <- mapFeature(x.test) %*% t(aa["theta"])
+## d <- data.frame(x=X, y=y)
+## p <- ggplot(data=d, aes(x=x,y=y))+geom_point()
+## dd <- data.frame(x.test=x.test, y.test=y.test)
+## p+geom_line(data=dd, aes(x=x.test, y=y.test))
 
 
 ## Normal equation
@@ -118,18 +126,7 @@ gradDescent <- function(X, y, theta, alpha, max.iter, lambda=0) {
     return(theta)
 }
 
-gradDescent2 <- function( x, y,theta, alpha=0.1, niter=1000, lambda=1) {
-    m <- length(y)
-    for (i in 1:niter) {
-        tt <- theta
-        tt[1] <- 0
-        dj <- 1/m * (t(h(theta,x)-y) %*% x + lambda * tt)
-        theta <- theta - alpha * dj
 
-    }
-
-    return(theta)
-}
 
 
 ## @exportMethod getTheta
@@ -185,25 +182,40 @@ setMethod(
 ##' @importFrom ggplot2 ylab
 ##' @importFrom ggplot2 opts
 ##' @importFrom ggplot2 geom_abline
+##' @importFrom ggplot2 geom_line
 ##' @author Guangchuang Yu \url{http://ygc.name}
 setMethod("plot",signature(x="linearRegressionResult"),
           function(x, title="", xlab="", ylab="") {
               X <- x@X
               y <- x@y
+              d <- data.frame(x=X, y=y)
               theta <- x@theta
-              pg <- ggplot()+ aes(X[,2],y) +
+
+              ## pg <- ggplot()+ aes(X[,1],y) +
+              pg <- ggplot(d, aes(x,y)) +
                   geom_point()
 
-              ## predicted <- as.vector(theta %*% t(X))
-              ## predicted.df <- data.frame(x=X[,2], y=predicted)
-              ## pg <- pg+geom_line(data=predicted.df,
-              ##                   aes(x=x,y=y, color="red")) +
-              ##                       opts(legend.position="none")
-              pg <- pg +
-                  geom_abline(intercept=theta[1],
-                              slope=theta[2],
-                              colour="red")
 
+              degree <- x@degree
+
+              if (degree == 1) {
+
+
+                  ## predicted <- as.vector(theta %*% t(X))
+                  ## predicted.df <- data.frame(x=X[,2], y=predicted)
+                  ## pg <- pg+geom_line(data=predicted.df,
+                  ##                   aes(x=x,y=y, color="red")) +
+                  ##                       opts(legend.position="none")
+                  pg <- pg +
+                      geom_abline(intercept=theta[1],
+                                  slope=theta[2],
+                                  colour="red")
+              } else {
+                  x.test <- seq(min(X), max(X), 0.001)
+                  y.test <- linear.mapFeature(as.matrix(x.test), degree) %*% t(theta)
+                  dd <- data.frame(x.test=x.test, y.test=y.test)
+                  pg <- pg+geom_line(data=dd, aes(x=x.test, y=y.test))
+              }
               pg <- pg + xlab(xlab) + ylab(ylab) +
                   opts(title=title)
               return(pg)
@@ -219,6 +231,25 @@ featureNormalize <- function(x) {
 }
 
 
-mapFeature <- function(x, degree=5){
-    return(sapply(0:degree, function(i) x^i))
+linear.mapFeature <- function(x, degree=5){
+    if (ncol(x) == 1) {
+        res <- sapply(0:degree, function(i) x^i)
+    }
+    if (ncol(x) == 2) {
+        res <- apply(x, 1, function(i) mapFeature(i[1], i[2], degree=degree))
+        res <- t(res)
+    }
+
+    return(res)
 }
+
+## use mapFeature defined for logisticRegression.
+## bi.mapFeature <- function(x, degree) {
+##     res <- 1
+##     j <- 0
+##     for (i in degree:0) {
+##         res <- c(res, x[1]^(degree-j) * x[2]^(degree-i))
+##         j <- j+1
+##     }
+##     return(res)
+## }

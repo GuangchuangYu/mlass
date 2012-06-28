@@ -2,7 +2,7 @@
 \alias{computeCost}
 \title{computeCost}
 \usage{
-  computeCost(X, y, theta)
+  computeCost(X, y, theta, lambda = 0)
 }
 \arguments{
   \item{X}{x values (a column of 1 was added)}

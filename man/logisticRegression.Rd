@@ -2,7 +2,7 @@
 \alias{logisticRegression}
 \title{logisticRegression}
 \usage{
-  logisticRegression(X, y, max.iter = 15)
+  logisticRegression(X, y, max.iter = 15, lambda = 0)
 }
 \arguments{
   \item{X}{x values}

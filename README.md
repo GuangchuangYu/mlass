@@ -10,7 +10,7 @@ The package name mlass is a combination of ml and class.
 The following algorithms will be implemented:
 
 	Linear Regression with one variable <2012-01-06, Fri>
-	Linear Regression with multiple variables
+	Linear Regression with multiple variables <2012-06-28, Thu>
 	Logistic Regression <2012-06-20, Wed>
 	Regularization for preventing overfitting <2012-06-27, Wed>
 	Neural Networks
