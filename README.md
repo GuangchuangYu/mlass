@@ -15,6 +15,7 @@ The following algorithms will be implemented:
 	Regularization for preventing overfitting <2012-06-27, Wed>
 	Neural Networks
 	Support Vector Machines <2012-04-11, Wed>
+	Hierachical clustering <2012-12-10, Mon>
 	K-Means algorithm <2011-12-30, Fri>
 	Principal Component Analysis
 
