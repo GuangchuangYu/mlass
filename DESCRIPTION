@@ -22,4 +22,5 @@ Collate:
     'mlass-package.R'
     'svm.R'
     'LogisticRegression.R'
+    'hcluster.R'
 Packaged: 2012-01-07 10:14:17 UTC; root
