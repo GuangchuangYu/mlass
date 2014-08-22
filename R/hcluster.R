@@ -32,10 +32,7 @@ getClosest <- function(d) {
 
 linkage <- function(d, method, cn, cls, dist) {
     sc <- getClosest(d)
-    fun <- switch(method,
-                  "complete" = max,
-                  "single"   = min
-                  )
+
     node <- sc$node
 
     ## if (method == "average") {
@@ -56,6 +53,7 @@ linkage <- function(d, method, cn, cls, dist) {
     } else if (method == "single") {
         h <- apply(d[node,], 2, min)
     } else {
+        ## step 1, expand known clusters
         nodes <- node
         ii <- grep("__c", nodes)
         if (length(ii) > 0) {
@@ -74,8 +72,10 @@ linkage <- function(d, method, cn, cls, dist) {
                 node2 <- nodes[-ii]
             }
         }
-        
+        ## step 2, calcuate mean
         h <- apply(dist[node2,], 2, mean)
+
+        ## step 3, merge known clusters.
         if(length(cls) >=1) {
             for (i in 1:length(cls)) {
                 nn <- cls[[i]]$node
@@ -171,29 +171,6 @@ plotting_hcluster <- function(hclusterResult, main="Cluster Dendrogram", xlab=""
     stats:::plot.hclust(hr, main=main, xlab=xlab, ylab=ylab, sub="")
 }
 
-set.seed <- 123
-s <- matrix(abs(rnorm(50)), ncol=5)
-rownames(s) <- paste("g", 1:10, sep="_")
-colnames(s) <- paste("t", 1:5, sep="_")
-
-png(file="hclust.png", width=900, height=600)
-par(mfrow=c(2,3))
-res <- hcluster(s, method="average")
-plotting_hcluster(res, xlab="average")
-res <- hcluster(s, method="complete")
-plotting_hcluster(res, xlab="complete")
-res <- hcluster(s, method="single")
-plotting_hcluster(res, xlab="single")
-
-d <- dist(s)
-hr <- hclust(d, "average")
-plot(hr)
-hr <- hclust(d, "complete")
-plot(hr)
-hr <- hclust(d, "single")
-plot(hr)
-
-dev.off()
 
 
 ## perf <- sapply(2:20, function(i) {
