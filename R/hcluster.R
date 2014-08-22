@@ -30,14 +30,63 @@ getClosest <- function(d) {
     return(hc)
 }
 
-linkage <- function(d, method, cn) {
+linkage <- function(d, method, cn, cls, dist) {
     sc <- getClosest(d)
     fun <- switch(method,
                   "complete" = max,
                   "single"   = min
                   )
     node <- sc$node
-    h <- apply(d[node,], 2, fun)
+
+    ## if (method == "average") {
+    ##     nodes <- node
+    ##     ii <- grep("__c", node)
+    ##     if (length(ii) > 0) {
+    ##         for (i in ii) {
+    ##             nodes <- c(nodes, cls[[nodes[i]]]$node)
+    ##         }
+    ##         nodes <- nodes[-ii]
+    ##     }
+    ## } else {
+    ##     nodes <- node
+    ## }
+
+    if ( method == "complete" ) {
+        h <- apply(d[node,], 2, max)
+    } else if (method == "single") {
+        h <- apply(d[node,], 2, min)
+    } else {
+        nodes <- node
+        ii <- grep("__c", nodes)
+        if (length(ii) > 0) {
+            node2 <- nodes[-ii]
+        } else {
+            node2 <- nodes
+        }
+        
+        while (length(ii) > 0) {
+            for (i in ii) {
+                node2 <- c(node2, cls[[nodes[i]]]$node)
+            }
+            ii <- grep("__c", node2)
+            nodes <- node2
+            if (length(ii) > 0) {
+                node2 <- nodes[-ii]
+            }
+        }
+        
+        h <- apply(dist[node2,], 2, mean)
+        if(length(cls) >=1) {
+            for (i in 1:length(cls)) {
+                nn <- cls[[i]]$node
+                h <- c(h, mean(h[nn]))
+                names(h)[length(h)]= names(cls[i])
+                h <- h[!names(h) %in% nn]
+            }
+        }
+        h <- h[colnames(d)]
+    }
+
     h <- h[! names(h) %in% node]
     d <- d[!rownames(d) %in% node,]
     if (is.null(dim(d))) {
@@ -65,11 +114,12 @@ hcluster <- function(mat,
                      method="complete",
                      dist.method="euclidean") {
     d <- getDistance(mat, dist.method)
+    dist <- d
     nr <- nrow(d)
     cls <- list()
     for (i in 1:(nr-1)) {
-        cn <- paste("c", i, sep="_")
-        sc <- linkage(d, method, cn)
+        cn <- paste("__c", i, sep="-")
+        sc <- linkage(d, method, cn, cls, dist)
         cls[[i]] <- sc$subCluster
         names(cls)[i] <- cn
         d <- sc$d
@@ -109,7 +159,7 @@ plotting_hcluster <- function(hclusterResult, main="Cluster Dendrogram", xlab=""
     m <- t(tn)
     nidx <- m %in% labels
     m[nidx] <- -sapply(m[nidx], function(i) which(i== labels))
-    m[!nidx] <- sapply(m[!nidx], function(i) unlist(strsplit(i, "_"))[2])
+    m[!nidx] <- sapply(m[!nidx], function(i) unlist(strsplit(i, "-"))[2])
     m <- matrix(as.numeric(m), ncol=2)
 
     hr <- list(merge=m,
@@ -121,12 +171,29 @@ plotting_hcluster <- function(hclusterResult, main="Cluster Dendrogram", xlab=""
     stats:::plot.hclust(hr, main=main, xlab=xlab, ylab=ylab, sub="")
 }
 
-## set.seed <- 123
-## s <- matrix(abs(rnorm(50)), ncol=5)
-## rownames(s) <- paste("g", 1:10, sep="_")
-## colnames(s) <- paste("t", 1:5, sep="_")
-## res <- hcluster(s)
-## plotting_hcluster(res)
+set.seed <- 123
+s <- matrix(abs(rnorm(50)), ncol=5)
+rownames(s) <- paste("g", 1:10, sep="_")
+colnames(s) <- paste("t", 1:5, sep="_")
+
+png(file="hclust.png", width=900, height=600)
+par(mfrow=c(2,3))
+res <- hcluster(s, method="average")
+plotting_hcluster(res, xlab="average")
+res <- hcluster(s, method="complete")
+plotting_hcluster(res, xlab="complete")
+res <- hcluster(s, method="single")
+plotting_hcluster(res, xlab="single")
+
+d <- dist(s)
+hr <- hclust(d, "average")
+plot(hr)
+hr <- hclust(d, "complete")
+plot(hr)
+hr <- hclust(d, "single")
+plot(hr)
+
+dev.off()
 
 
 ## perf <- sapply(2:20, function(i) {

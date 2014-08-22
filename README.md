@@ -1,8 +1,6 @@
-# mlass
+# mlass: Machine Learning clASS
 
-mlass is my implementation of Machine Learning algorithms presented in ml-clas (http://ml-class.org, stanford). 
-
-The package name mlass is a combination of ml and class.
+Many machine learning algorithms' implementation are complicated for mixing algorithm itself with optimization algorithms. In this package, I try to implement some basic, pure machine learning algorithm without optimization.
 
 
 # Algorithms
@@ -15,7 +13,8 @@ The following algorithms will be implemented:
 	Regularization for preventing overfitting <2012-06-27, Wed>
 	Neural Networks
 	Support Vector Machines <2012-04-11, Wed>
-	Hierachical clustering <2012-12-10, Mon>
+	Hierachical clustering, single and complete method <2012-12-10, Mon>
+	Hierachical clustering, average (UPGMA) method <2014-08-22, Fri>
 	K-Means algorithm <2011-12-30, Fri>
 	Principal Component Analysis
 
