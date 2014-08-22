@@ -42,13 +42,9 @@ linkage <- function(d, method, cn, cls, dist) {
         ## step 1, expand known clusters
         nodes <- node
         ii <- grep("__c", nodes)
-        if (length(ii) > 0) {
-            node2 <- nodes[-ii]
-        } else {
-            node2 <- nodes
-        }
-        
+        node2 <- nodes
         while (length(ii) > 0) {
+            node2 <- nodes[-ii]
             for (i in ii) {
                 node2 <- c(node2, cls[[nodes[i]]]$node)
             }
