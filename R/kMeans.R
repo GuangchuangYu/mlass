@@ -149,7 +149,7 @@ kMeans <- function(X, centers, max.iter = 10, lang="CPP"){
 ##' @importFrom ggplot2 geom_path
 ##' @importFrom ggplot2 xlab
 ##' @importFrom ggplot2 ylab
-##' @importFrom ggplot2 opts
+##' @importFrom ggplot2 ggtitle
 ##' @author Guangchuang Yu \url{http://ygc.name}
 setMethod("plot", signature(x="kMeansResult"),
           function (x, trace=F, title="", xlab="", ylab="") {
@@ -178,7 +178,7 @@ setMethod("plot", signature(x="kMeansResult"),
                                         geom_path(data=preCentroids,
                                                   aes(x=V1, y=V2, group=idx))
                   p <- p + xlab(xlab) + ylab(ylab) +
-                      opts(title=title)
+                      ggtitle(title)
               }
               print(p)
           }

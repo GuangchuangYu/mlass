@@ -121,18 +121,18 @@ plotting_hcluster <- function(hclusterResult, main="Cluster Dendrogram", xlab=""
     stats:::plot.hclust(hr, main=main, xlab=xlab, ylab=ylab, sub="")
 }
 
-set.seed <- 123
-s <- matrix(abs(rnorm(50)), ncol=5)
-rownames(s) <- paste("g", 1:10, sep="_")
-colnames(s) <- paste("t", 1:5, sep="_")
-res <- hcluster(s)
-plotting_hcluster(res)
+## set.seed <- 123
+## s <- matrix(abs(rnorm(50)), ncol=5)
+## rownames(s) <- paste("g", 1:10, sep="_")
+## colnames(s) <- paste("t", 1:5, sep="_")
+## res <- hcluster(s)
+## plotting_hcluster(res)
 
 
-perf <- sapply(2:20, function(i) {
-    res <- kmeans(iris[,-5], centers=3, iter.max=i)
-    lev <- sapply(1:3, function(j)
-                  names(which.max(table(iris[res$cluster == j, 5]))))
-    sum(as.numeric(factor(iris[,5], levels=lev)) == res$cluster)/length(iris[,5])
+## perf <- sapply(2:20, function(i) {
+##     res <- kmeans(iris[,-5], centers=3, iter.max=i)
+##     lev <- sapply(1:3, function(j)
+##                   names(which.max(table(iris[res$cluster == j, 5]))))
+##     sum(as.numeric(factor(iris[,5], levels=lev)) == res$cluster)/length(iris[,5])
 
-})
+## })

@@ -4,14 +4,13 @@
 ##'
 ##' @name linearRegressionResult-class
 ##' @aliases linearRegressionResult-class
-##'  "[", lineareRegressionResult-method plot, linearRegressionResult-method
+##'  linearRegressionResult-method
 ##'
 ##' @docType class
 ##' @slot X x values (a column of 1 was added)
 ##' @slot y y values
 ##' @slot theta theta values
 ##' @slot degree feature degree
-##' @seealso \code{\link{gradDescent}}
 ##' @keywords classes
 ##' @author Guangchuang Yu \url{http://ygc.name}
 setClass("linearRegressionResult",
@@ -104,7 +103,7 @@ normalEqn <- function(X, y, lambda=0) {
     ## extra regularization terms
     r <- lambda * diag(n)
     r[1,1] <- 0
-    theta <- solve(t(X) %*% X + r) %*% t(x) %*% y
+    theta <- solve(t(X) %*% X + r) %*% t(X) %*% y
     return(theta)
 }
 
@@ -180,7 +179,7 @@ setMethod(
 ##' @importFrom ggplot2 geom_point
 ##' @importFrom ggplot2 xlab
 ##' @importFrom ggplot2 ylab
-##' @importFrom ggplot2 opts
+##' @importFrom ggplot2 ggtitle
 ##' @importFrom ggplot2 geom_abline
 ##' @importFrom ggplot2 geom_line
 ##' @author Guangchuang Yu \url{http://ygc.name}
@@ -217,7 +216,7 @@ setMethod("plot",signature(x="linearRegressionResult"),
                   pg <- pg+geom_line(data=dd, aes(x=x.test, y=y.test))
               }
               pg <- pg + xlab(xlab) + ylab(ylab) +
-                  opts(title=title)
+                  ggtitle(title)
               return(pg)
           }
           )

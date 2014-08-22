@@ -47,7 +47,7 @@
 \title{\Rpackage{mlass}: Machine Learning Algorithms}
 \author{Guangchuang Yu \\
 \\
-Jinan University, Guangzhou, China}
+The University of Hong Kong}
 
 \begin{document}
 
@@ -78,7 +78,7 @@ plot(xx, xlab="Population of City in 10,000s", ylab="Profit in $10,000s")
 
 <<multi-variable>>=
 data(ex1data2)
-mm <- linearRegression(X, y, theta, normalEqn=TRUE)
+mm <- linearRegression(X, y, normalEqn=TRUE)
 @
 <<regularization-linearRegression>>=
 data(ex1data3)

@@ -130,7 +130,7 @@ setMethod(
 ##' @importFrom ggplot2 geom_point
 ##' @importFrom ggplot2 xlab
 ##' @importFrom ggplot2 ylab
-##' @importFrom ggplot2 opts
+##' @importFrom ggplot2 ggtitle
 ##' @importFrom ggplot2 geom_abline
 ##' @author Guangchuang Yu \url{http://ygc.name}
 setMethod("plot", signature(x="logisticRegressionResult"),

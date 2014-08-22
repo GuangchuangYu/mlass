@@ -221,7 +221,7 @@ svmTrain <- function(X, Y, C, kernelFunction="linearKernel",
 ##' @name plot
 ##' @docType methods
 ##' @rdname plot-methods
-##' @alias plot,svmResult
+##' @aliases plot,svmResult
 ##'
 ##' @title plot method
 ##' @param x A \code{svmResult} instance
@@ -241,7 +241,7 @@ svmTrain <- function(X, Y, C, kernelFunction="linearKernel",
 ##' @importFrom ggplot2 geom_contour
 ##' @importFrom ggplot2 xlab
 ##' @importFrom ggplot2 ylab
-##' @importFrom ggplot2 opts
+##' @importFrom ggplot2 ggtitle
 ##' @author Guangchuang Yu \url{http://ygc.name}
 setMethod("plot", signature(x="svmResult"),
           function(x, X, y, type, title="", xlab="", ylab=""){
@@ -278,7 +278,7 @@ setMethod("plot", signature(x="svmResult"),
                   p <- p+geom_contour(data=vm, aes(x=x,y=y,z=z))
               }
 
-              p <- p + xlab(xlab) + ylab(ylab) + opts(title=title)
+              p <- p + xlab(xlab) + ylab(ylab) + ggtitle(title)
 
               print(p)
           }
