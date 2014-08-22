@@ -32,21 +32,7 @@ getClosest <- function(d) {
 
 linkage <- function(d, method, cn, cls, dist) {
     sc <- getClosest(d)
-
     node <- sc$node
-
-    ## if (method == "average") {
-    ##     nodes <- node
-    ##     ii <- grep("__c", node)
-    ##     if (length(ii) > 0) {
-    ##         for (i in ii) {
-    ##             nodes <- c(nodes, cls[[nodes[i]]]$node)
-    ##         }
-    ##         nodes <- nodes[-ii]
-    ##     }
-    ## } else {
-    ##     nodes <- node
-    ## }
 
     if ( method == "complete" ) {
         h <- apply(d[node,], 2, max)
