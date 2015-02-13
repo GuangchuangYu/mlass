@@ -8,26 +8,26 @@
 \alias{plot,svmResult}
 \title{plot method}
 \usage{
-\S4method{plot}{kMeansResult,ANY}(x, trace = F, title = "", xlab = "",
-  ylab = "")
-
 \S4method{plot}{linearRegressionResult,ANY}(x, title = "", xlab = "",
   ylab = "")
 
 \S4method{plot}{logisticRegressionResult,ANY}(x, title = "", xlab = "",
   ylab = "")
 
+\S4method{plot}{kMeansResult,ANY}(x, trace = F, title = "", xlab = "",
+  ylab = "")
+
 \S4method{plot}{svmResult,ANY}(x, X, y, type, title = "", xlab = "",
   ylab = "")
 }
 \arguments{
-\item{x}{A \code{kMeans} instance}
-
-\item{trace}{tracing centroids when algorithm progress}
-
 \item{object}{A \code{linearRegressionResult} instance.}
 
 \item{object}{A \code{logisticRegressionResult} instance.}
+
+\item{x}{A \code{kMeans} instance}
+
+\item{trace}{tracing centroids when algorithm progress}
 
 \item{x}{A \code{svmResult} instance}
 
@@ -44,20 +44,20 @@
 \item{ylab}{ylab}
 }
 \value{
+ggplot object
+
+ggplot object
+
 graph
-
-ggplot object
-
-ggplot object
 
 ggplot2 graph object
 }
 \description{
-plot method for \code{kMeansResult} instance
-
 plot method for \code{linearRegressionResult} instance
 
 plot method for \code{logisticRegressionResult} instance
+
+plot method for \code{kMeansResult} instance
 
 plot method for \code{svmResult} instance
 }

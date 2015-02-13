@@ -92,6 +92,16 @@ linkage <- function(d, method, cn, cls, dist) {
     return(result)
 }
 
+##' hiarachical cluster matrix
+##'
+##' 
+##' @title hcluster
+##' @param mat matrix
+##' @param method one of single, complete, and average
+##' @param dist.method method for calculating distance 
+##' @return list 
+##' @author G Yu
+##' @export
 hcluster <- function(mat,
                      method="complete",
                      dist.method="euclidean") {
@@ -110,10 +120,14 @@ hcluster <- function(mat,
                    data=mat,
                    method=method,
                    dist.method=dist.method)
+    class(result) <- "hcluster"
     return(result)
 }
 
-plotting_hcluster <- function(hclusterResult, main="Cluster Dendrogram", xlab="", ylab="Height") {
+##' @method plot hcluster
+##' @author G Yu
+##' @export
+plot.hcluster <- function(hclusterResult, main="Cluster Dendrogram", xlab="", ylab="Height") {
     cls <- hclusterResult$clusters
     labels <- rownames(hclusterResult$data)
     tn <- sapply(cls, function(i) rev(i$node))
