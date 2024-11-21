@@ -31,7 +31,7 @@
 ##' @slot alphas alphas
 ##' @seealso \code{\link{svmTrain}}
 ##' @keywords classes
-##' @author Guangchuang Yu \url{http://ygc.name}
+##' @author Guangchuang Yu \url{https://yulab-smu.top}
 setClass("svmResult",
          representation=representation(
          X="matrix",
@@ -60,7 +60,7 @@ setClass("svmResult",
 ##' @return A \code{svmResult} instance
 ##' @importFrom methods new
 ##' @export
-##' @author Guangchuang Yu \url{http://ygc.name}
+##' @author Guangchuang Yu \url{https://yulab-smu.top}
 ##' @keywords manip
 svmTrain <- function(X, Y, C, kernelFunction="linearKernel",
                      tol=1e-4, max.iter=20, verbose=FALSE) {
@@ -242,7 +242,7 @@ svmTrain <- function(X, Y, C, kernelFunction="linearKernel",
 ##' @importFrom ggplot2 xlab
 ##' @importFrom ggplot2 ylab
 ##' @importFrom ggplot2 ggtitle
-##' @author Guangchuang Yu \url{http://ygc.name}
+##' @author Guangchuang Yu \url{https://yulab-smu.top}
 setMethod("plot", signature(x="svmResult"),
           function(x, X, y, type, title="", xlab="", ylab=""){
               model <- x
@@ -288,7 +288,7 @@ setMethod("plot", signature(x="svmResult"),
 setMethod(
           f="[",
           signature=signature(x="svmResult", i="character"),
-          definition=function(x,i,j...) {
+          definition=function(x,i,j, ...) {
               if(i=="w")
                   return(x@w)
               if(i=="b")

@@ -12,7 +12,7 @@
 ##' @slot theta theta values
 ##' @slot degree feature degree
 ##' @keywords classes
-##' @author Guangchuang Yu \url{http://ygc.name}
+##' @author Guangchuang Yu \url{https://yulab-smu.top}
 setClass("linearRegressionResult",
          representation=representation(
          X="matrix",
@@ -33,7 +33,7 @@ setClass("linearRegressionResult",
 ##' @param y y values
 ##' @param theta theta values
 ##' @return cost J
-##' @author Guangchuang Yu \url{http://ygc.name}
+##' @author Guangchuang Yu \url{https://yulab-smu.top}
 computeCost <- function(X, y, theta, lambda=0) {
     ## number of training example.
     m <- length(y)
@@ -59,7 +59,7 @@ computeCost <- function(X, y, theta, lambda=0) {
 ##' @return A \code{linearRegressionResult} instance.
 ##' @importFrom methods new
 ##' @export
-##' @author Guangchuang Yu \url{http://ygc.name}
+##' @author Guangchuang Yu \url{https://yulab-smu.top}
 ##' @keywords manip
 linearRegression <- function(X,y, alpha=0.01, lambda=0, max.iter=1000, degree=1, normalEqn=FALSE, featureNormalize=FALSE) {
     X <- as.matrix(X)
@@ -140,7 +140,7 @@ gradDescent <- function(X, y, theta, alpha, max.iter, lambda=0) {
 ## @title getTheta method
 ## @param object A \code{linearRegressionResult} instance.
 ## @return theta
-## @author Guangchuang Yu \url{http://ygc.name}
+## @author Guangchuang Yu \url{https://yulab-smu.top}
 ## setMethod(getTheta, signature(object="linearRegressionResult"),
 ##          function (object) {
 ##              theta <- object@theta
@@ -182,7 +182,7 @@ setMethod(
 ##' @importFrom ggplot2 ggtitle
 ##' @importFrom ggplot2 geom_abline
 ##' @importFrom ggplot2 geom_line
-##' @author Guangchuang Yu \url{http://ygc.name}
+##' @author Guangchuang Yu \url{https://yulab-smu.top}
 setMethod("plot",signature(x="linearRegressionResult"),
           function(x, title="", xlab="", ylab="") {
               X <- x@X

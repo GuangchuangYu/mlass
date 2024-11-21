@@ -1,0 +1,207 @@
+---
+title: '*mlass*: Machine Learning Algorithms'
+author: "Guangchuang Yu\\
+
+        School of Basic Medical Sciences, Southern Medical University"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    toc: true
+    theme: cayman
+    highlight: github
+  pdf_document:
+    toc: true
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{An introduction to mlass}
+  %\usepackage[utf8]{inputenc}
+---
+
+::: article
+``` {r options,echo=FALSE}
+options(width=60)
+require(mlass)
+```
+
+## Linear Regression with one variable
+
+``` {r gradDescent}
+data(ex1data1)
+xx <- linearRegression(X, y, alpha=0.01, max.iter=1500)
+xx["theta"]
+```
+
+``` {r plotLinearRegression-2, fig=T}
+plot(xx, xlab="Population of City in 10,000s", ylab="Profit in $10,000s")
+```
+
+``` {r multi-variable}
+data(ex1data2)
+mm <- linearRegression(X, y, normalEqn=TRUE)
+```
+
+## K-Means Clustering Algorithm
+
+The K-means algorithm is a method to automatically cluster similar data
+examples together. Concretely, you are given a training set
+$\{x^{(1)},...,x^{(m)}\}$ (where $x^{(i)} \in \mathbb{R^{n}}$), and want
+to group the data into a few cohesive clusters.
+
+The intuition behind K-means is an iterative procedure that starts by
+guessing the initial centroids, and then refines this guess by repeately
+assigning examples to their closest centroids and then recomputing the
+centroids based on the assignments.
+
+The K-means algorithm is as follows:
+
+-   Initialize centroids
+
+    In *mlass* package, parameter *centers* can be set to K, which will
+    initialize K centroids randomly, or user specific centroids.
+
+-   Refines the centroids
+
+    Find closest centroids for each data point.
+
+    Assign each data point to the closest centroid.
+
+    Recompute the centroids based on the assignments.
+
+    Repeat this procedure until it reach *max.iter* (default is 10).
+
+The K-means algorithm will always converge to some final set of means
+for the centroids. Note that the converged solution may not always be
+ideal and depends on the initial setting of the centroids. Therefore, in
+practice the K-means algorithm is usually run a few times with different
+random initializations. One way to choose between these different
+solutions from different random initializations is to choose the one
+with the lowest cost function value (distortion).
+
+Case Study:
+
+-   Example in ML-class <http://ml-class.org>.
+
+``` {r regularization-linearRegression}
+data(ex1data3)
+aa <- linearRegression(X, y, lambda=1, alpha=0.1, degree=5)
+aa["theta"]
+```
+
+-   IRIS dataset.
+
+``` {r kmeans}
+data(ex7data2)
+initCentroids <- matrix(c(3,3,6,2,8,5), byrow=T,ncol=2)
+xx <- kMeans(X, centers=initCentroids)
+## accessing result items
+xx["clusters"]
+xx["centroids"]
+```
+
+    The `plot` function fo visualizing the clustering result only
+    support two features. User can use it to visualize the clustering
+    result, with only the first two columns in iris data plotted.
+
+K means algorithm can apply for image compression. As an example, please
+refer to: <http://ygc.name/2011/12/26/image-compression-using-kmeans/>.
+
+## Support Vector Machine
+
+Vladimir Vapnik invented Support Vector Machines in 1979. In its
+simplest form, an SVM is a hyperplane that separates a set of positive
+examples from a set of negative examples with maximum margin.
+
+```{r FiglinearSVM, echo=FALSE , fig.cap="A linear Support Vector Machine", fig.alt="graphic without alt text", fig.show='hold', fig.align="center", out.width="100%"}
+knitr::include_graphics(c("linearSVM.png"))
+```
+
+In the linear case, the margin is defined by the distance of the
+*hyperplane* (decision boundary ) to the nearest of the positive and
+negative examples, which were also known as *support vectors*.
+
+The object of SVM is to maximize the distance from the *hyperplane* to
+the *support vectors*.
+
+The formula for the output of a linear SVM is
+
+$w^{T}x+b$,
+
+where *w* is the normal vector to the *hyperplane* and *x* is the input
+vector. The separating hyperplane is the plane $u = 0$. The nearest
+points lie on the planes $u = \pm{1}$. The margin *m* is thus
+
+$m = \frac{1}{\|\mathbf{w}\|}$
+
+The problem of finding the optimal hyperplane is an optimization problem
+and can be solved by optimization techniques (use Lagrange multipliers
+to get into a form that can be solved analytically).
+
+Training a support vector machine requires the solution of a very large
+quadratic programming (QP) optimization problem. Sequential Minimal
+Optimization (SMO) breaks this large QP problem into a series of
+smallest possible QP problems. These small QP problems are solved
+analytically, which avoids using a time-consuming numerical QP
+optimization as an inner loop. The amount of memory required for SMO is
+linear in the training set size, which allows SMO to handle very large
+training sets.
+
+The SMO algorithm details were describe in *Sequential Minimal
+Optimization: A Fast Algorithm for Training Support Vector Machines* by
+John Platt.
+
+-   finding the maximum margin
+
+Case Study:
+
+-   Linear classification with Example 1 in ML-class.
+
+    Dataset *ex6data1* can be separated by linear boundary.
+
+``` {r plotkMeans-2, fig=T}
+plot(xx, trace=TRUE, title="Iteration number 10")
+```
+
+    Notice that there is an outlier positive example on the far left at
+    about (0.1, 4.1). In `svmTrain`, the *C* parameter is a positive
+    value that controls the penalty for misclassified training examples.
+    A large C parameter tells the SVM to try to classify all the
+    examples correctly. *C* plays a role similar to $\frac{1}{\lambda}$,
+    where $\lambda$ is the regularization parameter for logistic
+    regression.
+
+-   Non-linear classification with Example 2 in ML-class.
+
+    Dataset *ex6data2* is not linearly separable. To find non-linear
+    decision boundaries with SVM, we implemented a Gaussian kernel,
+    which performed as a similarity function that measures the
+    \"distance\" between a pair of examples, ($x^i, x^j$). The Gaussian
+    kernel is also parameterized by a bandwidth parameter, $\sigma$,
+    which determines how fast the similarity metric decreases (to 0) as
+    the examples are further apart.
+
+``` {r iris}
+data(iris)
+iris.data=as.matrix(iris[,-5])
+x=kMeans(iris.data, centers=3)
+l <- sapply(1:3, function(i)
+            names(which.max(table(iris[x["clusters"] == i,5]))))
+## clustering accuracy
+sum(as.numeric(factor(iris[,5], levels=l)) == x["clusters"])/length(iris[,5])
+```
+
+
+    After using the Gaussian kernel with the SVM, the non-linear
+    decision boundary was determined reasonably well. The decision
+    boundary is able to separate most of the positive and negative
+    examples correctly and follows the contours of the dataset well.
+
+## Session Information
+
+The version number of R and packages loaded for generating the vignette
+were:
+
+```{r}
+sessionInfo()
+```
+

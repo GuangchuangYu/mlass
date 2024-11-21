@@ -1,19 +1,26 @@
 Package: mlass
 Type: Package
 Title: Machine Learning Algorithms
-Description: ML algorithms
-Version: 0.4.1
+Description: This package is designed to implement the ML algorithms presented in ML Class (<http://www.ml-class.org>, Stanford).
+Version: 0.4.2
 Author: Guangchuang Yu
 Maintainer: Guangchuang Yu <guangchuangyu@gmail.com>
-Date: 2012-12-10
-License: Artistic-2.0
 Depends:
     R (>= 3.0.0),
     Rcpp
-LinkingTo: Rcpp
 Imports:
     methods,
     stats4,
     ggplot2,
     reshape2
+Suggests:
+    knitr,
+    prettydoc,
+    rmarkdown
+LinkingTo: Rcpp
+License: Artistic-2.0
+VignetteBuilder: knitr
 Packaged: 2012-01-07 10:14:17 UTC; root
+RoxygenNote: 7.3.2
+Encoding: UTF-8
+Date: 2012-12-10
